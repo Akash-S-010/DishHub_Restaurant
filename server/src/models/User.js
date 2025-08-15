@@ -7,7 +7,7 @@ const addressSchema = new mongoose.Schema({
   state: { type: String, required: true },
   zip: { type: String, required: true },
   country: { type: String, required: true },
-}, { _id: false }); // no separate _id for subdocs
+}, { _id: true });
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -15,25 +15,32 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  
+  phone: {
+    type: String,
+    required: true,
+    trim: true,
+    match: [/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number"],
+    unique: true,
+  },
+
   email: {
     type: String,
     required: true,
     unique: true,
     lowercase: true
   },
-  
+
   password: {
     type: String,
     minlength: 6
   },
-  
-  googleId: { 
+
+  googleId: {
     type: String // for Google OAuth users
   },
 
   addresses: [addressSchema], // Embedded addresses
-  
+
   wishlist: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Dish" }
   ],
