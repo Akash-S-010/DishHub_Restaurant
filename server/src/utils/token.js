@@ -6,7 +6,7 @@ export default function generateToken(userId, role = "user") {
     }
 
     return jwt.sign(
-        { id: userId, role },
+        { userId, role },
         process.env.JWT_SECRET,
         { expiresIn: "30d" } // fixed lifetime
     );
