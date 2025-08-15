@@ -95,7 +95,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch =  bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -120,6 +120,131 @@ export const loginUser = async (req, res) => {
 
   } catch (error) {
     console.error("Error in loginUser:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+// get user------
+export const getUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+// update profile------T
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { name, email, phone, password } = req.body;
+
+    const updates = {};
+
+    // Update name if provided
+    if (name) updates.name = name;
+
+    // Update email if provided
+    if (email) {
+      const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
+      if (existingEmail) {
+        return res.status(400).json({ message: "Email already registered" });
+      }
+      updates.email = email;
+    }
+
+    // Update phone if provided
+    if (phone) {
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        return res.status(400).json({ message: "Please enter a valid 10-digit mobile number" });
+      }
+      const existingPhone = await User.findOne({ phone, _id: { $ne: userId } });
+      if (existingPhone) {
+        return res.status(400).json({ message: "Phone number already registered" });
+      }
+      updates.phone = phone;
+    }
+
+    // Update password if provided
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updates.password = hashedPassword;
+    }
+
+    // Update user in DB
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true }).select("-password");
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedUser
+    });
+
+  } catch (error) {
+    console.error("Error in updateProfile:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+// logout user------
+export const logoutUser = (req, res) => {
+  try {
+    // Clear the token cookie
+    res.cookie("token", "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 0 });
+    
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error in logoutUser:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+// get all users------
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find()
+      .select("-password")
+      .sort({ createdAt: -1 }); // newest first
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error in getAllUsers:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+// Block user------
+export const toggleBlockUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Toggle block status
+    user.block = !user.block;
+    await user.save();
+
+    return res.status(200).json({
+      message: user.block ? "Blocked successfully" : "Unblocked successfully"});
+
+  } catch (error) {
+    console.error("Error in toggleBlockUser:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

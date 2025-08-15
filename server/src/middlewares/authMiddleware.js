@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-export const protect = async (req, res, next) => {
+const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -22,3 +22,5 @@ export const protect = async (req, res, next) => {
     return res.status(401).json({ message: "Not authorized" });
   }
 };
+
+export default checkAuth;
