@@ -90,8 +90,14 @@ export const loginUser = async (req, res) => {
     const query = isEmail ? { email: login } : { phone: login };
     const user = await User.findOne(query);
 
+
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // avoid Blocked user login
+    if (user && user.isBlocked) {
+      return res.status(403).json({ message: "User is blocked" });
     }
 
     // Compare passwords
