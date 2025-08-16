@@ -1,7 +1,7 @@
 import express from 'express';
 import { getAllUsers, getUser, loginUser, signupUser, toggleBlockUser, updateProfile } from '../controllers/authController';
-import checkAuth from '../middlewares/authMiddleware.js';
-import checkAdmin from '../middlewares/adminMiddleware.js';
+import checkAuth from '../middlewares/checkAuth.js';
+import checkAdmin from '../middlewares/checkAdmin.js';
 const router = express.Router();
 
 router.post('/signup', signupUser);
