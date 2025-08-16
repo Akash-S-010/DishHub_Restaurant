@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
   addresses: [addressSchema], // Embedded addresses
 
   wishlist: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Dish" }
+    { type: mongoose.Schema.Types.ObjectId, ref: "food" }
   ],
 
   orderHistory: [

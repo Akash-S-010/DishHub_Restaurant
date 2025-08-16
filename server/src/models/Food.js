@@ -7,7 +7,7 @@ const reviewSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 }, { _id: false });
 
-const dishSchema = new mongoose.Schema({
+const foodSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -48,4 +48,4 @@ const dishSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.model("Dish", dishSchema);
+export default mongoose.model("food", foodSchema);
