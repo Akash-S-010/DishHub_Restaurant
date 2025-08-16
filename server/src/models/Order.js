@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const orderItemSchema = new mongoose.Schema({
-  food: { type: mongoose.Schema.Types.ObjectId, ref: "food", required: true },
+  food: { type: mongoose.Schema.Types.ObjectId, ref: "Food", required: true },
   quantity: { type: Number, required: true, min: 1 }
 }, { _id: false });
 
@@ -12,21 +12,21 @@ const orderSchema = new mongoose.Schema({
 
   totalPrice: {
     type: Number,
-    required: true
+    required: true,
+    min: 0
   },
 
   address: {
-    label: String,
-    street: String,
-    city: String,
-    state: String,
-    zip: String,
-    country: String
+    buildingName: { type: String, required: true }, // house no / apartment / building
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    pincode: { type: String, required: true }
   },
 
   paymentType: {
     type: String,
-    enum: ["COD", "Razorpay", "Stripe"],
+    enum: ["COD", "Razorpay"],
     required: true
   },
 
