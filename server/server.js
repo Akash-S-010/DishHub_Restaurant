@@ -6,6 +6,7 @@ import userRoutes from './src/routes/authRoutes.js';
 import foodRoutes from './src/routes/foodRoutes.js';
 import orderRoutes from './src/routes/orderRoutes.js';
 import wishlistRoutes from './src/routes/wishlistRoutes.js';
+import cartRoutes from './src/routes/cartRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use("/api/user", userRoutes)
 app.use("/api/food", foodRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/cart", cartRoutes);
 
 
 // Run Server
