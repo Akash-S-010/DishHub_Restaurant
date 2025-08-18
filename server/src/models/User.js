@@ -9,6 +9,11 @@ const addressSchema = new mongoose.Schema({
   country: { type: String, required: true },
 }, { _id: true });
 
+const cartItemSchema = new mongoose.Schema({
+  food: { type: mongoose.Schema.Types.ObjectId, ref: "Food", required: true },
+  quantity: { type: Number, required: true, min: 1, default: 1 }
+}, { _id: false });
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -36,14 +41,16 @@ const userSchema = new mongoose.Schema({
   },
 
   googleId: {
-    type: String // for Google OAuth users
+    type: String // for Google OAuth 
   },
 
-  addresses: [addressSchema], // Embedded addresses
+  addresses: [addressSchema], 
 
   wishlist: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "food" }
+    { type: mongoose.Schema.Types.ObjectId, ref: "Food" }
   ],
+
+  cart: [cartItemSchema], 
 
   orderHistory: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Order" }
@@ -60,6 +67,6 @@ const userSchema = new mongoose.Schema({
     default: false
   },
 
-}, { timestamps: true }); // createdAt, updatedAt
+}, { timestamps: true }); 
 
 export default mongoose.model("User", userSchema);
