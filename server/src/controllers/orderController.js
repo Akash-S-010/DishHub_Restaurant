@@ -1,4 +1,5 @@
 import Order from "../models/order.model.js";
+import User from "../models/user.model.js";
 import Food from "../models/food.model.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
@@ -14,60 +15,45 @@ const razorpay = new Razorpay({
 // Place New Order
 export const placeOrder = async (req, res) => {
   try {
-    const { items, address, paymentType } = req.body;
     const userId = req.user._id;
+    const { items, totalPrice, address, paymentType } = req.body;
 
+    // Validate items
     if (!items || items.length === 0) {
       return res.status(400).json({ message: "No items in order" });
     }
 
-    // Calculate total price
-    let totalPrice = 0;
-    for (let item of items) {
+    // Check if food items exist
+    for (const item of items) {
       const food = await Food.findById(item.food);
-      if (!food) return res.status(404).json({ message: "Food not found" });
-      totalPrice += food.price * item.quantity;
+      if (!food) {
+        return res.status(404).json({ message: `Food item not found: ${item.food}` });
+      }
     }
 
-    // Create order object (before payment)
+    // Create order
     const order = new Order({
       user: userId,
       items,
       totalPrice,
       address,
       paymentType,
-      paymentStatus: paymentType === "COD" ? "pending" : "pending",
+      paymentStatus: paymentType === "COD" ? "pending" : "paid",
     });
 
-    if (paymentType === "COD") {
-      await order.save();
-      return res.status(201).json({
-        message: "Order placed successfully with COD",
-        order,
-      });
-    }
+    await order.save();
 
-    if (paymentType === "Razorpay") {
-      const options = {
-        amount: totalPrice * 100, // in paise
-        currency: "INR",
-        receipt: `order_${Date.now()}`,
-      };
+    // Add order to user's order history & clear cart
+    const user = await User.findById(userId);
+    user.orderHistory.push(order._id);
+    user.cart = []; // clear cart after placing order
+    await user.save();
 
-      const razorpayOrder = await razorpay.orders.create(options);
+    return res.status(201).json({
+      message: "Order placed successfully",
+      order,
+    });
 
-      // Save order with Razorpay details
-      order.razorpayOrderId = razorpayOrder.id;
-      await order.save();
-
-      return res.status(201).json({
-        message: "Razorpay order created",
-        razorpayOrder,
-        orderId: order._id,
-      });
-    }
-
-    return res.status(400).json({ message: "Invalid payment type" });
   } catch (error) {
     console.error("Error in placeOrder:", error);
     return res.status(500).json({ message: "Internal server error" });
