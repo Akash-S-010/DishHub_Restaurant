@@ -1,6 +1,6 @@
-import Order from "../models/order.model.js";
-import User from "../models/user.model.js";
-import Food from "../models/food.model.js";
+import Order from "../models/Order.js";
+import User from "../models/User.js";
+import Food from "../models/Food.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 

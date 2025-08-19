@@ -1,5 +1,5 @@
-import User from "../models/user.model.js";
-import Food from "../models/food.model.js";
+import User from "../models/User.js";
+import Food from "../models/Food.js";
 
 
 // Add item to cart

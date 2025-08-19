@@ -1,5 +1,5 @@
-import User from "../models/userModel.js";
-import Food from "../models/foodModel.js";
+import User from "../models/User.js";
+import Food from "../models/Food.js";
 
 
 export const addToWishlist = async (req, res) => {
