@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-export default function generateToken(userId, role = "user") {
+export default function generateToken(id, role = "user") {
     if (!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined in environment variables");
     }
 
     return jwt.sign(
-        { userId, role },
+        { id, role },
         process.env.JWT_SECRET,
         { expiresIn: "30d" } // fixed lifetime
     );

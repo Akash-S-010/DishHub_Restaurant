@@ -3,8 +3,8 @@ import User from '../models/User.js';
 //  Add new address
 export const addAddress = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const newAddress = req.body; // { label, street, city, state, zip, country }
+    const userId = req.user.id;
+    const newAddress = req.body; 
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -27,7 +27,7 @@ export const addAddress = async (req, res) => {
 //  Get all addresses of logged-in user
 export const getAddresses = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("addresses");
+    const user = await User.findById(req.user.id).select("addresses");
     if (!user) return res.status(404).json({ message: "User not found" });
 
     return res.status(200).json(user.addresses);
@@ -42,7 +42,7 @@ export const getAddresses = async (req, res) => {
 //  Update a specific address
 export const updateAddress = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const addressId = req.params.addressId; // from route
     const updatedData = req.body;
 
@@ -70,7 +70,7 @@ export const updateAddress = async (req, res) => {
 //  Delete a specific address
 export const deleteAddress = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const addressId = req.params.addressId;
 
     const user = await User.findById(userId);

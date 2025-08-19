@@ -93,7 +93,7 @@ export const addReview = async (req, res) => {
   try {
     const foodId = req.params.id;
     const { rating, comment } = req.body;
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     // ✅ Validate input
     if (!rating || rating < 1 || rating > 5) {

@@ -5,7 +5,7 @@ import Food from "../models/Food.js";
 // Add item to cart
 export const addToCart = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const { foodId, quantity } = req.body;
 
     if (!foodId || !quantity || quantity < 1) {
@@ -47,7 +47,7 @@ export const addToCart = async (req, res) => {
 // Get user cart
 export const getCart = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
+    const user = await User.findById(req.user.id)
       .populate("cart.food", "name price image");
 
     return res.status(200).json(user.cart);
@@ -67,7 +67,7 @@ export const updateCartItem = async (req, res) => {
       return res.status(400).json({ message: "Food ID and valid quantity required" });
     }
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
     const cartItem = user.cart.find((item) => item.food.toString() === foodId);
 
     if (!cartItem) {
@@ -94,7 +94,7 @@ export const removeFromCart = async (req, res) => {
   try {
     const { foodId } = req.params;
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
     user.cart = user.cart.filter((item) => item.food.toString() !== foodId);
 
     await user.save();
@@ -114,7 +114,7 @@ export const removeFromCart = async (req, res) => {
 // Clear cart after order placed (or manually)
 export const clearCart = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
     user.cart = [];
     await user.save();
 

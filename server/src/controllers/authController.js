@@ -13,7 +13,7 @@ const cookieOptions = {
 // Signup user------
 export const signupUser = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, email, phone, password, role } = req.body;
 
     // Validate required fields
     if (!name || !email || !phone || !password) {
@@ -46,11 +46,12 @@ export const signupUser = async (req, res) => {
       name,
       email,
       phone,
-      password: hashedPassword
+      password: hashedPassword,
+      role: role || "user"
     });
 
     // Generate token using ID & role
-    const token = generateToken(user._id, user.role);
+    const token = generateToken(user.id, user.role);
 
     // Set token cookie
     res.cookie("token", token, cookieOptions);
@@ -59,11 +60,11 @@ export const signupUser = async (req, res) => {
     return res.status(201).json({
       message: "Signup successful",
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         phone: user.phone,
-        role: user.role
+        role: role
       }
     });
 
@@ -101,13 +102,13 @@ export const loginUser = async (req, res) => {
     }
 
     // Compare passwords
-    const isMatch =  bcrypt.compare(password, user.password);
+    const isMatch =  await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Generate token
-    const token = generateToken(user._id, user.role);
+    const token = generateToken(user.id, user.role);
 
     // 5. Set cookie
     res.cookie("token", token, cookieOptions);
@@ -116,7 +117,7 @@ export const loginUser = async (req, res) => {
     return res.status(200).json({
       message: "Login successful",
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         phone: user.phone,
@@ -160,7 +161,7 @@ export const updateProfile = async (req, res) => {
 
     // Update email if provided
     if (email) {
-      const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
+      const existingEmail = await User.findOne({ email, id: { $ne: userId } });
       if (existingEmail) {
         return res.status(400).json({ message: "Email already registered" });
       }
@@ -173,7 +174,7 @@ export const updateProfile = async (req, res) => {
       if (!phoneRegex.test(phone)) {
         return res.status(400).json({ message: "Please enter a valid 10-digit mobile number" });
       }
-      const existingPhone = await User.findOne({ phone, _id: { $ne: userId } });
+      const existingPhone = await User.findOne({ phone, id: { $ne: userId } });
       if (existingPhone) {
         return res.status(400).json({ message: "Phone number already registered" });
       }

@@ -4,7 +4,7 @@ import Food from "../models/Food.js";
 
 export const addToWishlist = async (req, res) => {
   try {
-    const userId = req.user._id; 
+    const userId = req.user.id; 
     const { foodId } = req.params;
 
     // Check if food exists
@@ -37,7 +37,7 @@ export const addToWishlist = async (req, res) => {
 
 export const removeFromWishlist = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const { foodId } = req.params;
 
     const user = await User.findById(userId);
@@ -66,7 +66,7 @@ export const removeFromWishlist = async (req, res) => {
 
 export const getWishlist = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     const user = await User.findById(userId)
       .populate("wishlist") // populate food details

@@ -15,7 +15,7 @@ const razorpay = new Razorpay({
 // Place New Order
 export const placeOrder = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const { items, totalPrice, address, paymentType } = req.body;
 
     // Validate items
@@ -45,7 +45,7 @@ export const placeOrder = async (req, res) => {
 
     // Add order to user's order history & clear cart
     const user = await User.findById(userId);
-    user.orderHistory.push(order._id);
+    user.orderHistory.push(order.id);
     user.cart = []; // clear cart after placing order
     await user.save();
 
@@ -99,7 +99,7 @@ export const verifyPayment = async (req, res) => {
 // Get Logged-in User Orders
 export const getMyOrders = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const orders = await Order.find({ user: userId })
       .populate("items.food", "name price image")
       .sort({ createdAt: -1 });
