@@ -15,13 +15,13 @@
     /* card backgrounds */
     --color-primary: #f59e0b;
     /* amber - primary CTA */
-    --color-primary-600: #d97706;
+    --color-primary-600: #e58518;
     /* darker primary */
     --color-accent: #ef4444;
     /* warm accent (red) */
     --color-muted: #9ca3af;
     /* muted text / secondary */
-    --color-text: #e6eef8;
+    --color-off-white: #e6eef8;
     /* primary text (off-white) */
     --color-success: #10b981;
     /* success / ok */
@@ -33,10 +33,10 @@
     --color-surface: #071322;
     --color-card: #071225;
     --color-primary: #f59e0b;
-    --color-primary-600: #d97706;
+    --color-primary-600: #e58518;
     --color-accent: #fb7185;
     --color-muted: #94a3b8;
-    --color-text: #e6eef8;
+    --color-text-off-white: #e6eef8;
     --color-success: #10b981;
 }
 

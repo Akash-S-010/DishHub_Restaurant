@@ -7,7 +7,7 @@ const Loader = ({ size = 400}) => {
     <div
       role="status"
       aria-busy="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
     >
       <div className="flex flex-col items-center gap-3">
         <div style={{ width: size, height: size }}>

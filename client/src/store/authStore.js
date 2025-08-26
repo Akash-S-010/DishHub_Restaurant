@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from '../config/axios.js'
+import { toast } from 'react-hot-toast'
 
 
 const useAuthStore = create((set, get) => ({
@@ -17,6 +18,7 @@ const useAuthStore = create((set, get) => ({
             return user
         } catch (err) {
             set({ user: null, loading: false, error: err })
+            // no toast here to avoid noise on first load
             return null
         }
     },
@@ -29,9 +31,11 @@ const useAuthStore = create((set, get) => ({
             const res = await axios.post('/user/login', credentials)
             const user = res?.data?.user ?? res?.data ?? null
             set({ user, loading: false })
+            toast.success('Welcome back!')
             return { ok: true, user, data: res.data }
         } catch (err) {
             set({ loading: false, error: err })
+            toast.error(err?.response?.data?.message || 'Login failed')
             return { ok: false, error: err }
         }
     },
@@ -43,9 +47,11 @@ const useAuthStore = create((set, get) => ({
             const res = await axios.post('/user/signup', payload)
             const user = res?.data?.user ?? res?.data ?? null
             set({ user, loading: false })
+            toast.success('Account created!')
             return { ok: true, user, data: res.data }
         } catch (err) {
             set({ loading: false, error: err })
+            toast.error(err?.response?.data?.message || 'Signup failed')
             return { ok: false, error: err }
         }
     },
@@ -56,9 +62,11 @@ const useAuthStore = create((set, get) => ({
         try {
             await axios.post('/user/logout')
             set({ user: null, loading: false })
+            toast('Logged out')
             return { ok: true }
         } catch (err) {
             set({ loading: false, error: err })
+            toast.error(err?.response?.data?.message || 'Logout failed')
             return { ok: false, error: err }
         }
     },
@@ -70,9 +78,11 @@ const useAuthStore = create((set, get) => ({
             const res = await axios.put('/user/update-profile', payload)
             const user = res?.data?.user ?? res?.data ?? null
             set({ user, loading: false })
+            toast.success('Profile updated')
             return { ok: true, user, data: res.data }
         } catch (err) {
             set({ loading: false, error: err })
+            toast.error(err?.response?.data?.message || 'Update failed')
             return { ok: false, error: err }
         }
     },

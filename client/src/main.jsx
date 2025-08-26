@@ -9,7 +9,22 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <App />
-      <Toaster position="top-center" />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: 'var(--color-card)',
+            color: 'var(--color-off-white)',
+            border: '1px solid var(--color-surface)'
+          },
+          success: {
+            iconTheme: { primary: 'var(--color-success)', secondary: 'var(--color-bg)' }
+          },
+          error: {
+            iconTheme: { primary: 'var(--color-accent)', secondary: 'var(--color-bg)' }
+          }
+        }}
+      />
     </BrowserRouter>
   </StrictMode>,
 )

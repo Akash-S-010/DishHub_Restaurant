@@ -1,30 +1,48 @@
 import React from "react";
 import { Loader } from "lucide-react";
 
-export const Button = ({ title, className = "", onClick, loading }) => {
+export const Button = ({
+  title = "Button",
+  className = "",
+  onClick,
+  loading = false,
+  children,
+  type = 'button',
+  ...rest
+}) => {
   const defaultClasses =
-    "btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer hover:bg-[var(--color-primaryHover)] hover:scale-102 text-white border-primary";
+    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
+  const classes =
+    className && className.trim() !== "" ? className : defaultClasses;
 
   return (
-    <button onClick={onClick} className={`${defaultClasses} ${className}`}>
-      {loading ? (
-        <Loader className="animate-spin w-5 h-5 text-primary" />
-      ) : (
-        title
-      )}
+    <button type={type} onClick={onClick} disabled={loading} className={classes} {...rest}>
+      {loading ? <Loader className="animate-spin w-5 h-5 text-black" /> : (children ? children : title)}
     </button>
   );
 };
 
-export const SubmitBtn = ({ title, width, loading }) => {
+export const SubmitBtn = ({
+  title = "Submit",
+  width = "100%",
+  loading = false,
+  className = "",
+}) => {
+  const defaultClasses =
+    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
+  const classes =
+    className && className.trim() !== "" ? className : defaultClasses;
+
   return (
     <button
       type="submit"
-      className="btn btn-primary text-white font-semibold py-2 rounded-md transition cursor-pointer flex items-center justify-center disabled:opacity-50 hover:bg-[var(--color-primaryHover)] hover:scale-102"
-      style={{ width: width || "100%" }}
       disabled={loading}
+      className={classes}
+      style={{ width }}
     >
-      {loading ? <Loader className="animate-spin w-5 h-5 text-white" /> : title}
+      {loading ? <Loader className="animate-spin w-5 h-5 text-black mx-auto" /> : title}
     </button>
   );
 };
+
+export default Button;
