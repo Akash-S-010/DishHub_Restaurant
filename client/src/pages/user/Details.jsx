@@ -4,11 +4,15 @@ import useFoodStore from "../../store/foodStore.js";
 import useWishlistStore from "../../store/wishlistStore.js";
 import useCartStore from "../../store/cartStore.js";
 import { Minus, Plus, Heart, Star } from "lucide-react";
+import Button from '../../components/ui/Button'
 
 const Details = () => {
   const { id } = useParams();
   const { fetchById, loading } = useFoodStore();
-  const { items: wishlist, add, remove } = useWishlistStore();
+  const wishlist = useWishlistStore((s) => s.items);
+  const add = useWishlistStore((s) => s.add);
+  const remove = useWishlistStore((s) => s.remove);
+  const hydrate = useWishlistStore((s) => s.hydrate);
   const [food, setFood] = useState(null);
   const [qty, setQty] = useState(1);
   const addCart = useCartStore((s) => s.add);
@@ -20,6 +24,11 @@ const Details = () => {
       setFood(f);
     })();
   }, [id]);
+
+  useEffect(() => {
+    // ensure wishlist is loaded so isInWishlist() works correctly
+    hydrate();
+  }, []);
 
   const isInWishlist = (fid) => wishlist?.some((w) => (w._id || w) === fid);
 
@@ -34,19 +43,17 @@ const Details = () => {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-2 gap-10">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-2 gap-10 items-center">
       {/* Left: Image with overlay and wishlist */}
-      <div className="relative rounded-2xl overflow-hidden border border-surface bg-card">
-        <img
-          src={food.image}
-          alt={food.name}
-          className="w-full h-full object-cover"
-        />
+      <div className="relative rounded-2xl overflow-hidden border border-surface bg-card flex items-center justify-center">
+        <img src={food.image} alt={food.name} className="w-full h-96 object-cover max-w-full" />
         <button
-          onClick={() =>
-            isInWishlist(food._id) ? remove(food._id) : add(food._id)
+          onClick={async () => {
+            isInWishlist(food._id) ? await remove(food._id) : await add(food._id);
+            await hydrate();
           }
-          className="absolute top-3 right-3 rounded-full p-2 bg-surface hover:opacity-90"
+          }
+          className="absolute top-3 right-3 rounded-full p-2 bg-black hover:opacity-90 cursor-pointer"
           aria-label="Toggle wishlist"
         >
           <Heart
@@ -58,10 +65,10 @@ const Details = () => {
       </div>
 
       {/* Right: Info panel */}
-      <div className="space-y-5">
-        <div className="flex items-center gap-2">
+      <div className="space-y-5 text-center lg:text-left">
+        <div className="flex items-center gap-2 justify-center lg:justify-start">
           {food.category && (
-            <span className="text-xs px-2 py-1 rounded bg-surface border border-surface text-muted">
+            <span className="text-xs px-2 py-1 rounded bg-black border border-surface text-muted">
               {food.category}
             </span>
           )}
@@ -72,8 +79,8 @@ const Details = () => {
           )}
         </div>
 
-        <h1 className="text-3xl font-extrabold text-off-white">{food.name}</h1>
-        <div className="flex items-center gap-2">
+  <h1 className="text-3xl font-extrabold text-off-white">{food.name}</h1>
+  <div className="flex items-center gap-2 justify-center lg:justify-start">
           {stars.map((on, i) => (
             <Star
               key={i}
@@ -90,17 +97,15 @@ const Details = () => {
 
         <p className="text-muted leading-relaxed">{food.description}</p>
 
-        <div className="flex items-center gap-4">
-          <span className="text-primary text-3xl font-extrabold">
-            ₹{food.price}
-          </span>
+        <div className="flex items-center justify-center lg:justify-start mb-2">
+          <span className="text-primary text-3xl font-extrabold">₹{food.price}</span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
           <div className="inline-flex items-center gap-3 rounded-md border border-surface px-3 py-2">
             <button
               onClick={() => setQty((q) => Math.max(1, q - 1))}
-              className="p-1 hover:text-primary"
+              className="p-1 hover:text-primary cursor-pointer"
             >
               <Minus className="h-4 w-4" />
             </button>
@@ -109,25 +114,26 @@ const Details = () => {
             </span>
             <button
               onClick={() => setQty((q) => q + 1)}
-              className="p-1 hover:text-primary"
+              className="p-1 hover:text-primary cursor-pointer"
             >
               <Plus className="h-4 w-4" />
             </button>
           </div>
-          <button
+            <Button
+              onClick={async () => {
+                await addCart(food._id, qty);
+                navigate('/cart');
+              }}
+              className="px-6 py-3 rounded-md text-black font-semibold"
+            >
+              Add to Cart
+            </Button>
+          <Button
             onClick={async () => {
-              await addCart(food._id, qty);
-              navigate("/cart");
+              isInWishlist(food._id) ? await remove(food._id) : await add(food._id);
+              await hydrate();
             }}
-            className="px-6 py-3 rounded-md bg-primary hover:bg-primary-600 text-black font-semibold"
-          >
-            Add to Cart
-          </button>
-          <button
-            onClick={() =>
-              isInWishlist(food._id) ? remove(food._id) : add(food._id)
-            }
-            className="rounded-md px-4 py-3 border border-surface hover:bg-surface"
+            className="rounded-md px-4 py-3 border border-surface text-off-white hover:bg-surface bg-transparent"
           >
             <Heart
               className={`h-5 w-5 inline mr-2 ${
@@ -135,7 +141,7 @@ const Details = () => {
               }`}
             />
             {isInWishlist(food._id) ? "Wishlisted" : "Wishlist"}
-          </button>
+          </Button>
         </div>
 
         {Array.isArray(food.reviews) && food.reviews.length > 0 && (

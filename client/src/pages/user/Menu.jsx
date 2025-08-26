@@ -3,6 +3,7 @@ import useFoodStore from "../../store/foodStore.js";
 import useWishlistStore from "../../store/wishlistStore.js";
 import useCartStore from "../../store/cartStore.js";
 import { Heart } from "lucide-react";
+import FoodCard from '../../components/user/FoodCard';
 
 const Menu = () => {
   const { foods, loading, fetchAll } = useFoodStore();
@@ -84,63 +85,16 @@ const Menu = () => {
               className="rounded-xl border border-surface bg-card h-56 animate-pulse"
             />
           ))}
-        {!loading &&
-          filtered.map((food) => (
-            <div
-              key={food._id}
-              className="group rounded-xl border border-surface bg-card overflow-hidden"
-            >
-              <div className="relative h-40">
-                <img
-                  src={food.image}
-                  alt={food.name}
-                  className="h-full w-full object-cover"
-                />
-                <button
-                  onClick={() =>
-                    wishlist?.some((w) => (w._id || w) === food._id)
-                      ? removeWish(food._id)
-                      : addWish(food._id)
-                  }
-                  className="absolute top-2 right-2 rounded-full p-2 bg-surface hover:opacity-90"
-                  aria-label="Toggle wishlist"
-                >
-                  <Heart
-                    className={`w-5 h-5 ${
-                      wishlist?.some((w) => (w._id || w) === food._id)
-                        ? "text-accent"
-                        : "text-muted"
-                    }`}
-                  />
-                </button>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-off-white line-clamp-1">
-                  {food.name}
-                </h3>
-                <p className="text-muted text-sm line-clamp-2">
-                  {food.description}
-                </p>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-primary font-bold">₹{food.price}</span>
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={`/food/${food._id}`}
-                      className="px-3 py-1.5 rounded-md border border-surface text-sm hover:bg-surface"
-                    >
-                      Details
-                    </a>
-                    <button
-                      onClick={() => addCart(food._id, 1)}
-                      className="px-3 py-1.5 rounded-md bg-primary hover:bg-primary-600 text-black text-sm font-semibold"
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+        {!loading && filtered.map((food) => (
+          <FoodCard
+            key={food._id}
+            food={food}
+            isFavorite={wishlist?.some((w) => (w._id || w) === food._id)}
+            onToggleWishlist={(id) => wishlist?.some((w) => (w._id || w) === id) ? removeWish(id) : addWish(id)}
+            onAdd={(id) => addCart(id, 1)}
+            onDetails={(id) => window.location.href = `/food/${id}`}
+          />
+        ))}
       </div>
     </div>
   );

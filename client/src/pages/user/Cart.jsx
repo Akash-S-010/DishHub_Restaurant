@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import useCartStore from "../../store/cartStore.js";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import Button from '../../components/ui/Button'
 import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
@@ -41,40 +42,40 @@ const Cart = () => {
                 </h3>
                 <p className="text-muted">₹{it.food?.price}</p>
                 <div className="mt-2 inline-flex items-center gap-3 rounded-md border border-surface px-3 py-2">
-                  <button
+                  <Button
                     onClick={() =>
                       updateQty(
                         it.food?._id || it.food,
                         Math.max(1, it.quantity - 1)
                       )
                     }
-                    className="p-1 hover:text-primary"
+                    className="p-1 hover:text-primary bg-transparent"
                   >
                     <Minus className="h-4 w-4" />
-                  </button>
+                  </Button>
                   <span className="min-w-8 text-center font-semibold text-off-white">
                     {it.quantity}
                   </span>
-                  <button
+                  <Button
                     onClick={() =>
                       updateQty(it.food?._id || it.food, it.quantity + 1)
                     }
-                    className="p-1 hover:text-primary"
+                    className="p-1 hover:text-primary bg-transparent"
                   >
                     <Plus className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="text-right">
                 <p className="font-bold text-off-white">
                   ₹{(it.food?.price || 0) * it.quantity}
                 </p>
-                <button
+                <Button
                   onClick={() => remove(it.food?._id || it.food)}
-                  className="mt-2 inline-flex items-center gap-1 text-accent hover:opacity-90"
+                  className="mt-2 inline-flex items-center gap-1 text-accent hover:opacity-90 bg-transparent"
                 >
                   <Trash2 className="h-4 w-4" /> Remove
-                </button>
+                </Button>
               </div>
             </div>
           ))
@@ -97,20 +98,20 @@ const Cart = () => {
             <span>Total</span>
             <span>₹{subtotal.toFixed(2)}</span>
           </div>
-          <button
+          <Button
             disabled={items.length === 0}
             onClick={() => navigate("/checkout")}
-            className="mt-4 w-full px-4 py-3 rounded-md bg-primary hover:bg-primary-600 text-black font-semibold disabled:opacity-50"
+            className="mt-4 w-full px-4 py-3 rounded-md text-black font-semibold"
           >
             Proceed to Checkout
-          </button>
+          </Button>
           {items.length > 0 && (
-            <button
+            <Button
               onClick={clear}
-              className="mt-2 w-full px-4 py-2 rounded-md border border-surface hover:bg-surface"
+              className="mt-2 w-full px-4 py-2 rounded-md border border-surface hover:bg-surface bg-transparent"
             >
               Clear Cart
-            </button>
+            </Button>
           )}
         </div>
       </aside>

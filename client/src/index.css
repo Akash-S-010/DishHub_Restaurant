@@ -7,7 +7,20 @@
 }
 
 @theme {
-    --color-bg: #0b0b0f;
+    --color-bg: #1a1a1a;
+    --color-surface: #5d543f;
+    --color-card: #140f08;
+    --color-primary: #f59e0b;
+    --color-primary-600: #e58518;
+    --color-accent: #fb7185;
+    --color-muted: #94a3b8;
+    --color-off-white: #e6eef8;
+    --color-success: #10b981;
+}
+
+/* Dark-mode (controlled by `.dark` on <html> or documentElement) */
+.light {
+    --color-bg: #00000;
     /* page background (very dark) */
     --color-surface: #0f1724;
     /* panels, nav, cards */
@@ -27,27 +40,13 @@
     /* success / ok */
 }
 
-/* Dark-mode (controlled by `.dark` on <html> or documentElement) */
-.dark {
-    --color-bg: #071019;
-    --color-surface: #071322;
-    --color-card: #071225;
-    --color-primary: #f59e0b;
-    --color-primary-600: #e58518;
-    --color-accent: #fb7185;
-    --color-muted: #94a3b8;
-    --color-text-off-white: #e6eef8;
-    --color-success: #10b981;
-}
-
 html,
 body {
     background-color: var(--color-bg);
-    color: var(--color-text);
+    color: var(--color-off-white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* background image (dark blackboard) */
-    background-image: linear-gradient(rgba(3, 6, 12, 0.6), rgba(3, 6, 12, 0.6)), url('/src/assets/blackboard.jpg');
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
@@ -55,5 +54,10 @@ body {
 }
 
 ::-webkit-scrollbar {
-  display: none;
+    display: none;
+}
+
+.test{
+    color: #0c0801;
+    color: #5d543f;
 }

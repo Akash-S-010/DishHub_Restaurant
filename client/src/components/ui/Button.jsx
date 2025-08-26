@@ -11,9 +11,8 @@ export const Button = ({
   ...rest
 }) => {
   const defaultClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
-  const classes =
-    className && className.trim() !== "" ? className : defaultClasses;
+    "inline-flex items-center justify-center px-4 py-2 rounded-md cursor-pointer hover:scale-105  font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
+  const classes = `${defaultClasses} ${className || ''}`.trim()
 
   return (
     <button type={type} onClick={onClick} disabled={loading} className={classes} {...rest}>
@@ -29,9 +28,8 @@ export const SubmitBtn = ({
   className = "",
 }) => {
   const defaultClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
-  const classes =
-    className && className.trim() !== "" ? className : defaultClasses;
+    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold cursor-pointer hover:scale transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
+  const classes = `${defaultClasses} ${className || ''}`.trim()
 
   return (
     <button

@@ -19,7 +19,7 @@ const Navbar = () => {
   }, [user]);
 
   return (
-    <header className="bg-bg shadow-sm">
+    <header className="bg-black shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-2">
           {/* left: logo */}
@@ -109,7 +109,7 @@ const Navbar = () => {
                 </Link>
                 <Link to="/profile" aria-label="Profile">
                   {/* circle with user's initial */}
-                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-black font-semibold">
+                  <div className="h-8 w-8 rounded-full border-2 border-primary text-primary flex items-center justify-center font-extrabold">
                     {(() => {
                       const name = user?.name || user?.email || "";
                       return name ? name.charAt(0).toUpperCase() : "U";
