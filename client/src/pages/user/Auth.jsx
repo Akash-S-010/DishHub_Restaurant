@@ -7,14 +7,18 @@ import { SubmitBtn } from "../../components/ui/Button.jsx";
 const EmailOrPhone = ({ register, errors }) => {
   return (
     <div>
-      <label className="block text-off-white text-sm mb-1">Email or Phone</label>
+      <label className="block text-off-white text-sm mb-1">
+        Email or Phone
+      </label>
       <input
         {...register("login", {
           required: "Email or phone is required",
           validate: (v) => {
             const isEmail = /\S+@\S+\.\S+/.test(v);
             const isPhone = /^[6-9]\d{9}$/.test(v);
-            return isEmail || isPhone || "Enter a valid email or 10-digit phone";
+            return (
+              isEmail || isPhone || "Enter a valid email or 10-digit phone"
+            );
           },
         })}
         placeholder="you@example.com or 9876543210"
@@ -32,11 +36,16 @@ const SignupFields = ({ register, errors }) => (
     <div>
       <label className="block text-off-white text-sm mb-1">Name</label>
       <input
-        {...register("name", { required: "Name is required", minLength: { value: 2, message: "Too short" } })}
+        {...register("name", {
+          required: "Name is required",
+          minLength: { value: 2, message: "Too short" },
+        })}
         placeholder="Your good name"
         className="w-full px-4 py-2 rounded-md bg-card border border-surface text-off-white placeholder:text-muted"
       />
-      {errors.name && <p className="text-accent text-xs mt-1">{errors.name.message}</p>}
+      {errors.name && (
+        <p className="text-accent text-xs mt-1">{errors.name.message}</p>
+      )}
     </div>
 
     <div>
@@ -50,7 +59,9 @@ const SignupFields = ({ register, errors }) => (
         placeholder="you@example.com"
         className="w-full px-4 py-2 rounded-md bg-card border border-surface text-off-white placeholder:text-muted"
       />
-      {errors.email && <p className="text-accent text-xs mt-1">{errors.email.message}</p>}
+      {errors.email && (
+        <p className="text-accent text-xs mt-1">{errors.email.message}</p>
+      )}
     </div>
 
     <div>
@@ -58,12 +69,17 @@ const SignupFields = ({ register, errors }) => (
       <input
         {...register("phone", {
           required: "Phone is required",
-          pattern: { value: /^[6-9]\d{9}$/, message: "Enter a valid 10-digit phone" },
+          pattern: {
+            value: /^[6-9]\d{9}$/,
+            message: "Enter a valid 10-digit phone",
+          },
         })}
         placeholder="9876543210"
         className="w-full px-4 py-2 rounded-md bg-card border border-surface text-off-white placeholder:text-muted"
       />
-      {errors.phone && <p className="text-accent text-xs mt-1">{errors.phone.message}</p>}
+      {errors.phone && (
+        <p className="text-accent text-xs mt-1">{errors.phone.message}</p>
+      )}
     </div>
   </>
 );
@@ -73,7 +89,10 @@ const PasswordField = ({ register, errors }) => (
     <label className="block text-off-white text-sm mb-1">Password</label>
     <input
       type="password"
-      {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
+      {...register("password", {
+        required: "Password is required",
+        minLength: { value: 6, message: "Min 6 characters" },
+      })}
       placeholder="••••••"
       className="w-full px-4 py-2 rounded-md bg-card border border-surface text-off-white placeholder:text-muted"
     />
@@ -152,7 +171,10 @@ const Auth = () => {
             </>
           )}
 
-          <SubmitBtn title={mode === "login" ? "Login" : "Create Account"} loading={loading} />
+          <SubmitBtn
+            title={mode === "login" ? "Login" : "Create Account"}
+            loading={loading}
+          />
         </form>
       </div>
     </div>
@@ -160,4 +182,3 @@ const Auth = () => {
 };
 
 export default Auth;
-

@@ -4,17 +4,19 @@ import { Heart, ShoppingCart, User } from "lucide-react";
 import logo from "../../assets/DishHub_Logo.png";
 import useAuthStore from "../../store/authStore.js";
 import useCartStore from "../../store/cartStore.js";
-import {Button} from "../ui/Button.jsx";
+import { Button } from "../ui/Button.jsx";
 
 const Navbar = () => {
   const user = useAuthStore((s) => s.user);
-  const cartCount = useCartStore((s)=> s.items.reduce((sum, it)=> sum + (it.quantity||0), 0))
-  const hydrateCart = useCartStore((s)=> s.hydrate)
-  const displayCount = cartCount > 99 ? '99+' : cartCount
+  const cartCount = useCartStore((s) =>
+    s.items.reduce((sum, it) => sum + (it.quantity || 0), 0)
+  );
+  const hydrateCart = useCartStore((s) => s.hydrate);
+  const displayCount = cartCount > 99 ? "99+" : cartCount;
 
-  useEffect(()=>{
-    hydrateCart()
-  }, [user])
+  useEffect(() => {
+    hydrateCart();
+  }, [user]);
 
   return (
     <header className="bg-bg shadow-sm">
@@ -87,10 +89,16 @@ const Navbar = () => {
                 >
                   <Heart />
                 </Link>
-                <Link to="/cart" aria-label="Cart" className="relative text-off-white  hover:text-[var(--color-primary)]">
+                <Link
+                  to="/cart"
+                  aria-label="Cart"
+                  className="relative text-off-white  hover:text-[var(--color-primary)]"
+                >
                   <ShoppingCart />
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full">{displayCount}</span>
+                    <span className="absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full">
+                      {displayCount}
+                    </span>
                   )}
                 </Link>
                 <Link to="/wishlist" aria-label="Wishlist" className="sr-only">
