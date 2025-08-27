@@ -42,40 +42,40 @@ const Cart = () => {
                 </h3>
                 <p className="text-muted">₹{it.food?.price}</p>
                 <div className="mt-2 inline-flex items-center gap-3 rounded-md border border-surface px-3 py-2">
-                  <Button
+                  <button
                     onClick={() =>
                       updateQty(
                         it.food?._id || it.food,
                         Math.max(1, it.quantity - 1)
                       )
                     }
-                    className="p-1 hover:text-primary bg-transparent"
+                    className="p-1 hover:text-primary bg-transparent cursor-pointer"
                   >
                     <Minus className="h-4 w-4" />
-                  </Button>
+                  </button>
                   <span className="min-w-8 text-center font-semibold text-off-white">
                     {it.quantity}
                   </span>
-                  <Button
+                  <button
                     onClick={() =>
                       updateQty(it.food?._id || it.food, it.quantity + 1)
                     }
-                    className="p-1 hover:text-primary bg-transparent"
+                    className="p-1 hover:text-primary bg-transparent cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                  </Button>
+                  </button>
                 </div>
               </div>
               <div className="text-right">
                 <p className="font-bold text-off-white">
                   ₹{(it.food?.price || 0) * it.quantity}
                 </p>
-                <Button
+                <button
                   onClick={() => remove(it.food?._id || it.food)}
-                  className="mt-2 inline-flex items-center gap-1 text-accent hover:opacity-90 bg-transparent"
+                  className="mt-2 inline-flex items-center gap-1 text-accent hover:opacity-90 bg-transparent cursor-pointer"
                 >
                   <Trash2 className="h-4 w-4" /> Remove
-                </Button>
+                </button>
               </div>
             </div>
           ))
@@ -106,12 +106,12 @@ const Cart = () => {
             Proceed to Checkout
           </Button>
           {items.length > 0 && (
-            <Button
+            <button
               onClick={clear}
-              className="mt-2 w-full px-4 py-2 rounded-md border border-surface hover:bg-surface bg-transparent"
+              className="mt-2 w-full px-4 py-2 rounded-md border text-off-white border-surface hover:bg-surface cursor-pointer bg-transparent"
             >
               Clear Cart
-            </Button>
+            </button>
           )}
         </div>
       </aside>

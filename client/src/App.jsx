@@ -13,6 +13,7 @@ import Auth from "./pages/user/Auth";
 import Profile from "./pages/user/Profile";
 import useAuthStore from "./store/authStore.js";
 import Error from "./pages/shared/Error";
+import Footer from "./components/user/Footer.jsx";
 
 const App = () => {
   const hydrateUser = useAuthStore((s) => s.hydrateUser);
@@ -29,7 +30,7 @@ const App = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-18">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="*" element={<Error />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -13,9 +13,10 @@ createRoot(document.getElementById('root')).render(
         position="top-center"
         toastOptions={{
           style: {
-            background: 'var(--color-card)',
-            color: 'var(--color-off-white)',
-            border: '1px solid var(--color-surface)'
+            background: 'var(--color-off-white)',
+            color: 'var(--color-black)',
+            fontWeight: 'bold',
+            border: '2px solid var(--color-primary)'
           },
           success: {
             iconTheme: { primary: 'var(--color-success)', secondary: 'var(--color-bg)' }

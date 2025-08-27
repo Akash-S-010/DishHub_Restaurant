@@ -11,7 +11,7 @@ export const Button = ({
   ...rest
 }) => {
   const defaultClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md cursor-pointer hover:scale-105  font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
+    "inline-flex items-center justify-center px-4 py-2 rounded-md cursor-pointer hover:scale-103  font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
   const classes = `${defaultClasses} ${className || ''}`.trim()
 
   return (

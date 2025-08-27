@@ -12,7 +12,6 @@ const useWishlistStore = create((set, get) => ({
     try {
       const { data } = await axios.get('/wishlist')
       set({ items: data, loading: false })
-      if (data?.length === 0) toast('Your wishlist is empty')
     } catch (err) {
       set({ loading: false, error: err })
       toast.error(err?.response?.data?.message || 'Could not load wishlist')

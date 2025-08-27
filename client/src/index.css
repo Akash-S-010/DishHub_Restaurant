@@ -13,7 +13,7 @@
     --color-primary: #f59e0b;
     --color-primary-600: #e58518;
     --color-accent: #fb7185;
-    --color-muted: #94a3b8;
+    --color-muted: #757c86;
     --color-off-white: #e6eef8;
     --color-success: #10b981;
 }
@@ -58,6 +58,6 @@ body {
 }
 
 .test{
-    color: #0c0801;
+    color: #757c86;
     color: #5d543f;
 }

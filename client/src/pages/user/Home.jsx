@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Apple, Play } from "lucide-react";
 import Button from "../../components/ui/Button";
-import FoodCard from '../../components/user/FoodCard'
+import FoodCard from "../../components/user/FoodCard";
 import useFoodStore from "../../store/foodStore.js";
 import useWishlistStore from "../../store/wishlistStore.js";
 import useCartStore from "../../store/cartStore.js";
@@ -67,7 +67,7 @@ const Home = () => {
       </section>
 
       {/* Latest section header */}
-      <div className="flex items-end justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-off-white">Latest Delights</h2>
           <p className="text-muted text-sm">
@@ -78,7 +78,7 @@ const Home = () => {
           to="/menu"
           className="text-primary hover:underline inline-flex items-center gap-2"
         >
-          Show more <ArrowRight className="w-4 h-4" />
+          Show more <ArrowRight className="size-4" />
         </Link>
       </div>
 
@@ -90,17 +90,59 @@ const Home = () => {
               className="rounded-xl border border-surface bg-card h-56 animate-pulse"
             />
           ))}
-        {!loading && latest.map((food) => (
-          <FoodCard
-            key={food._id}
-            food={food}
-            isFavorite={isInWishlist(food._id)}
-            onToggleWishlist={(id) => isInWishlist(id) ? remove(id) : add(id)}
-            onAdd={(id) => addCart(id, 1)}
-            onDetails={(id) => navigate(`/food/${id}`)}
-          />
-        ))}
+        {!loading &&
+          latest.map((food) => (
+            <FoodCard
+              key={food._id}
+              food={food}
+              isFavorite={isInWishlist(food._id)}
+              onToggleWishlist={(id) =>
+                isInWishlist(id) ? remove(id) : add(id)
+              }
+              onAdd={(id) => addCart(id, 1)}
+              onDetails={(id) => navigate(`/food/${id}`)}
+            />
+          ))}
       </div>
+
+
+      {/* download app section */}
+      <section className="bg-card py-16 rounded-lg border border-surface">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            For Better Experience Download <br />
+            <span className="text-primary font-extrabold"> Dishub </span>App
+          </h2>
+
+          <div className="flex justify-center gap-4 flex-wrap">
+            {/* Google Play Button */}
+            <Link
+              to="#"
+              className="flex items-center gap-2 border border-surface bg-black text-off-white px-4 py-3 rounded-xl hover:bg-surface transition"
+            >
+              <Play className="w-6 h-6" />
+              <div className="text-left">
+                <p className="text-xs">GET IT ON</p>
+                <p className="text-sm font-semibold text-primary">
+                  Google Play
+                </p>
+              </div>
+            </Link>
+
+            {/* App Store Button */}
+            <Link
+              to="#"
+              className="flex items-center gap-2 border border-surface bg-black text-off-white px-4 py-3 rounded-xl hover:bg-surface transition"
+            >
+              <Apple className="w-6 h-6" />
+              <div className="text-left">
+                <p className="text-xs">Download on the</p>
+                <p className="text-sm font-semibold text-primary">App Store</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

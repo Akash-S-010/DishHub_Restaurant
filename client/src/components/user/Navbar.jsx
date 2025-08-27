@@ -19,13 +19,16 @@ const Navbar = () => {
   }, [user]);
 
   return (
-    <header className="bg-black shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-2">
           {/* left: logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <img src={logo} alt="DishHub" className="h-15 w-auto" />
+              <img src={logo} alt="DishHub" className="size-12" />
+              <span className="font-extrabold text-primary text-2xl mt-2">
+                DishHub
+              </span>
             </Link>
           </div>
 
