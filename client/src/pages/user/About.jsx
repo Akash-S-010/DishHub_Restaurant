@@ -1,5 +1,16 @@
 import React from "react";
-import { ArrowRight, Star, Search, ShoppingCart, Truck, Target, Package, Users, User, MessageSquare } from "lucide-react";
+import {
+  ArrowRight,
+  Star,
+  Search,
+  ShoppingCart,
+  Truck,
+  Target,
+  Package,
+  Users,
+  User,
+  MessageSquare,
+} from "lucide-react";
 import Button from "../../components/ui/Button";
 
 const About = () => {
@@ -46,9 +57,21 @@ const About = () => {
       {/* Mission + Values */}
       <section className="grid md:grid-cols-3 gap-6">
         {[
-          { title: "Our Mission", text: "Bring affordable, delicious food to every neighborhood.", icon: <Target className="w-6 h-6 text-primary" /> },
-          { title: "Sourced Fresh", text: "We work with trusted suppliers and inspect ingredients daily.", icon: <Package className="w-6 h-6 text-primary" /> },
-          { title: "People First", text: "Fair pay, safe kitchens, and reliable delivery partners.", icon: <Users className="w-6 h-6 text-primary" /> },
+          {
+            title: "Our Mission",
+            text: "Bring affordable, delicious food to every neighborhood.",
+            icon: <Target className="w-6 h-6 text-primary" />,
+          },
+          {
+            title: "Sourced Fresh",
+            text: "We work with trusted suppliers and inspect ingredients daily.",
+            icon: <Package className="w-6 h-6 text-primary" />,
+          },
+          {
+            title: "People First",
+            text: "Fair pay, safe kitchens, and reliable delivery partners.",
+            icon: <Users className="w-6 h-6 text-primary" />,
+          },
         ].map((s, i) => (
           <div key={i} className="rounded-xl border border-surface bg-card p-6">
             <div className="flex items-center gap-3 mb-3">
@@ -65,16 +88,28 @@ const About = () => {
         <h2 className="text-2xl font-bold text-off-white mb-4">How it works</h2>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="p-4">
-            <div className="flex items-center gap-3 mb-2 text-primary font-bold"><Search className="w-5 h-5"/> <span>1. Browse</span></div>
-            <p className="text-muted text-sm">Pick from our curated menu of crowd favorites.</p>
+            <div className="flex items-center gap-3 mb-2 text-primary font-bold">
+              <Search className="w-5 h-5" /> <span>1. Browse</span>
+            </div>
+            <p className="text-muted text-sm">
+              Pick from our curated menu of crowd favorites.
+            </p>
           </div>
           <div className="p-4">
-            <div className="flex items-center gap-3 mb-2 text-primary font-bold"><ShoppingCart className="w-5 h-5"/> <span>2. Order</span></div>
-            <p className="text-muted text-sm">Secure checkout with saved addresses and fast payment options.</p>
+            <div className="flex items-center gap-3 mb-2 text-primary font-bold">
+              <ShoppingCart className="w-5 h-5" /> <span>2. Order</span>
+            </div>
+            <p className="text-muted text-sm">
+              Secure checkout with saved addresses and fast payment options.
+            </p>
           </div>
           <div className="p-4">
-            <div className="flex items-center gap-3 mb-2 text-primary font-bold"><Truck className="w-5 h-5"/> <span>3. Enjoy</span></div>
-            <p className="text-muted text-sm">Track your order and receive fresh food at your door.</p>
+            <div className="flex items-center gap-3 mb-2 text-primary font-bold">
+              <Truck className="w-5 h-5" /> <span>3. Enjoy</span>
+            </div>
+            <p className="text-muted text-sm">
+              Track your order and receive fresh food at your door.
+            </p>
           </div>
         </div>
       </section>
@@ -82,9 +117,21 @@ const About = () => {
       {/* Stats */}
       <section className="grid sm:grid-cols-3 gap-6 text-center">
         {[
-          { n: "1M+", label: "Orders Served", icon: <Package className="w-6 h-6 mx-auto text-primary"/> },
-          { n: "250K+", label: "Happy Customers", icon: <Users className="w-6 h-6 mx-auto text-primary"/> },
-          { n: "4.8", label: "Average Rating", icon: <Star className="w-6 h-6 mx-auto text-primary"/> },
+          {
+            n: "1M+",
+            label: "Orders Served",
+            icon: <Package className="w-6 h-6 mx-auto text-primary" />,
+          },
+          {
+            n: "250K+",
+            label: "Happy Customers",
+            icon: <Users className="w-6 h-6 mx-auto text-primary" />,
+          },
+          {
+            n: "4.8",
+            label: "Average Rating",
+            icon: <Star className="w-6 h-6 mx-auto text-primary" />,
+          },
         ].map((s, i) => (
           <div key={i} className="rounded-xl border border-surface bg-card p-6">
             {s.icon}
@@ -100,16 +147,46 @@ const About = () => {
           Meet the team
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {["Ava", "Liam", "Noah", "Olivia"].map((n, i) => (
+          {[
+            {
+              name: "Robert Caldwell",
+              img: "/src/assets/chef1.jpg",
+              role: "Head Chef",
+              bio: "Chef Robert Caldwell, with over 38 years of experience, is passionate about crafting exceptional burgers and pizzas in the fast food industry.",
+            },
+            {
+              name: "Sophia Ramirez",
+              img: "/src/assets/chef2.jpg",
+              role: "Sous Chef",
+              bio: "Chef Sophia Ramirez, with over 10 years of experience in fast food, is passionately renowned for her exceptional pizza creations.",
+            },
+            {
+              name: "James Delaney",
+              img: "/src/assets/chef3.jpg",
+              role: "Pastry Chef",
+              bio: "Chef James Delaney, with over 18 years of fast food expertise, passionately crafts exceptional pastas, delighting tasty bite.",
+            },
+            {
+              name: "Isabella Moretti",
+              img: "/src/assets/chef4.jpg",
+              role: "Kitchen Lead",
+              bio: "Chef Isabella Moretti, with over 25 years of experience, is a fast food expert passionate about crafting delectable sandwiches.",
+            },
+          ].map((m, i) => (
             <div
               key={i}
               className="rounded-xl border border-surface bg-card p-4 text-center"
             >
-              <div className="h-28 w-28 rounded-full bg-surface mx-auto mb-3 flex items-center justify-center text-primary font-bold text-xl">
-                {n.charAt(0)}
+              <img
+                src={m.img}
+                alt={m.name}
+                className="h-28 w-28 rounded-full object-cover object-top mx-auto mb-3"
+              />
+              <div className="font-semibold text-primary">{m.name}</div>
+              <div className="text-off-white text-sm flex items-center justify-center gap-2">
+                {m.role}
               </div>
-              <div className="font-semibold text-off-white">{n}</div>
-              <div className="text-muted text-sm flex items-center justify-center gap-2"><User className="w-4 h-4"/> Role — Product</div>
+              <div className="text-muted text-sm mt-2">{m.bio}</div>
             </div>
           ))}
         </div>
@@ -122,7 +199,7 @@ const About = () => {
         </h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-4 rounded-lg bg-[#071018]/40">
+            <div key={i} className="p-4 rounded-lg bg-bg">
               <div className="flex items-start gap-3 mb-2">
                 <div className="h-10 w-10 rounded-full bg-surface flex items-center justify-center">
                   U
