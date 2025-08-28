@@ -7,16 +7,28 @@ export const Button = ({
   onClick,
   loading = false,
   children,
-  type = 'button',
+  type = "button",
   ...rest
 }) => {
   const defaultClasses =
     "inline-flex items-center justify-center px-4 py-2 rounded-md cursor-pointer hover:scale-103  font-semibold transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black";
-  const classes = `${defaultClasses} ${className || ''}`.trim()
+  const classes = `${defaultClasses} ${className || ""}`.trim();
 
   return (
-    <button type={type} onClick={onClick} disabled={loading} className={classes} {...rest}>
-      {loading ? <Loader className="animate-spin w-5 h-5 text-black" /> : (children ? children : title)}
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={loading}
+      className={classes}
+      {...rest}
+    >
+      {loading ? (
+        <Loader className="animate-spin w-5 h-5 text-black" />
+      ) : children ? (
+        children
+      ) : (
+        title
+      )}
     </button>
   );
 };
@@ -28,8 +40,8 @@ export const SubmitBtn = ({
   className = "",
 }) => {
   const defaultClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold cursor-pointer hover:scale transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
-  const classes = `${defaultClasses} ${className || ''}`.trim()
+    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold cursor-pointer hover:scale-103 transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
+  const classes = `${defaultClasses} ${className || ""}`.trim();
 
   return (
     <button
@@ -38,7 +50,11 @@ export const SubmitBtn = ({
       className={classes}
       style={{ width }}
     >
-      {loading ? <Loader className="animate-spin w-5 h-5 text-black mx-auto" /> : title}
+      {loading ? (
+        <Loader className="animate-spin w-5 h-5 text-black mx-auto" />
+      ) : (
+        title
+      )}
     </button>
   );
 };

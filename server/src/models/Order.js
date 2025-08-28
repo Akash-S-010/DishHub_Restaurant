@@ -17,13 +17,11 @@ const orderSchema = new mongoose.Schema({
   },
 
   address: {
-  label: { type: String, required: true }, // house no / apartment / building
-  buildingName: { type: String }, // optional: some schemas expect buildingName
-  street: { type: String, required: true },
-  city: { type: String, required: true },
-  state: { type: String, required: true },
-  pincode: { type: String, required: true },
-  country: { type: String, default: 'India' }
+    label: { type: String, required: true }, // house no / apartment / building
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    pincode: { type: String, required: true }
   },
 
   paymentType: {

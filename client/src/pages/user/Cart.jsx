@@ -6,7 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { items, hydrate, updateQty, remove, clear, subtotal } = useCartStore();
+  const items = useCartStore((s) => s.items);
+  const hydrate = useCartStore((s) => s.hydrate);
+  const updateQty = useCartStore((s) => s.updateQty);
+  const remove = useCartStore((s) => s.remove);
+  const clear = useCartStore((s) => s.clear);
+  // derive subtotal locally so the UI updates immediately when `items` change
+  const subtotal = items.reduce((sum, it) => sum + (it.food?.price || 0) * (it.quantity || 0), 0);
+  const deliveryFee = 20; // default delivery fee
+  const total = subtotal + deliveryFee;
 
   useEffect(() => {
     hydrate();
@@ -91,12 +99,12 @@ const Cart = () => {
           </div>
           <div className="flex justify-between text-muted">
             <span>Delivery</span>
-            <span>₹0</span>
+            <span>₹{deliveryFee.toFixed(2)}</span>
           </div>
           <div className="border-t border-surface my-2" />
           <div className="flex justify-between font-bold text-off-white">
             <span>Total</span>
-            <span>₹{subtotal.toFixed(2)}</span>
+            <span>₹{total.toFixed(2)}</span>
           </div>
           <Button
             disabled={items.length === 0}

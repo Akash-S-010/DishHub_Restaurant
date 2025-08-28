@@ -11,6 +11,9 @@ import Cart from "./pages/user/Cart";
 import Wishlist from "./pages/user/Wishlist";
 import Auth from "./pages/user/Auth";
 import Profile from "./pages/user/Profile";
+import Address from "./pages/user/Address";
+import Checkout from "./pages/user/Checkout";
+import Orders from "./pages/user/Orders";
 import useAuthStore from "./store/authStore.js";
 import Error from "./pages/shared/Error";
 import Footer from "./components/user/Footer.jsx";
@@ -40,11 +43,15 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/address" element={<Address />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/auth/:mode" element={<Auth />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </main>
+
       <Footer />
     </div>
   );
