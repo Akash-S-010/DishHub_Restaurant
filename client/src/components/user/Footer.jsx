@@ -87,7 +87,7 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="flex-1 rounded-md px-3 py-2 bg-surface border border-transparent text-off-white placeholder:text-muted"
+                className="flex-1 rounded-md px-3 py-2 bg-bg border border-primary text-off-white placeholder:text-muted"
               />
               <Button type="submit" className="px-4 py-2">Subscribe</Button>
             </form>
