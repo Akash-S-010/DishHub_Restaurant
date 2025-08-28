@@ -111,7 +111,7 @@ const Home = () => {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">
             For Better Experience Download <br />
-            <span className="text-primary font-extrabold"> Dishub </span>App
+            <span className="text-primary font-extrabold"> DishHub </span>App
           </h2>
 
           <div className="flex justify-center gap-4 flex-wrap">
