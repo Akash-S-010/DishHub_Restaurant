@@ -10,7 +10,7 @@ const FoodCard = ({ food, isFavorite = false, onToggleWishlist = () => {}, onAdd
 
         <button
           onClick={() => onToggleWishlist(food._id)}
-          className="absolute top-2 right-2 rounded-full p-2 bg-black hover:opacity-90"
+          className="absolute top-2 right-2 rounded-full p-2 bg-black hover:opacity-90 cursor-pointer"
           aria-label="Toggle wishlist"
         >
           <Heart className={`w-5 h-5 ${isFavorite ? 'text-accent' : 'text-muted'}`} />
