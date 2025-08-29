@@ -31,14 +31,15 @@ export const placeOrder = async (req, res) => {
       }
     }
 
-    // Create order
+    // Create order in DB
     const order = new Order({
       user: userId,
       items,
       totalPrice,
       address,
       paymentType,
-      paymentStatus: paymentType === "COD" ? "pending" : "paid",
+      // For COD we'll keep pending, for Razorpay we'll start as pending and mark paid after verification
+      paymentStatus: paymentType === "COD" ? "pending" : "pending",
     });
 
     await order.save();
@@ -49,6 +50,27 @@ export const placeOrder = async (req, res) => {
     user.cart = []; // clear cart after placing order
     await user.save();
 
+    // If Razorpay payment requested, create a Razorpay order and return details to client
+    if (paymentType === "Razorpay") {
+      if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+        return res.status(500).json({ message: "Razorpay not configured on server" });
+      }
+
+      const razorpayOrder = await razorpay.orders.create({
+        amount: Math.round(totalPrice * 100), // amount in paise
+        currency: "INR",
+        receipt: order._id.toString(),
+      });
+
+      return res.status(201).json({
+        message: "Order created, proceed to payment",
+        order,
+        razorpayOrder,
+        key_id: process.env.RAZORPAY_KEY_ID,
+      });
+    }
+
+    // For COD simply return the order
     return res.status(201).json({
       message: "Order placed successfully",
       order,

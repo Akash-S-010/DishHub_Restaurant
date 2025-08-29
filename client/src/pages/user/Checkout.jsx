@@ -21,6 +21,7 @@ const Checkout = () => {
 
   const [selected, setSelected] = useState(null);
   const [placing, setPlacing] = useState(false);
+  const [paymentType, setPaymentType] = useState("COD");
 
   useEffect(() => {
     hydrateCart();
@@ -43,9 +44,61 @@ const Checkout = () => {
         })),
         totalPrice: total,
         address: addr,
-        paymentType: "COD",
+        paymentType,
       };
       const { data } = await axios.post("/order/place", payload);
+
+      // If backend returned a razorpayOrder, open Razorpay checkout
+      if (paymentType === "Razorpay" && data?.razorpayOrder) {
+        const { razorpayOrder, order, key_id } = data;
+
+        // Load Razorpay script if not present
+        const loadRzp = () =>
+          new Promise((resolve, reject) => {
+            if (window.Razorpay) return resolve();
+            const script = document.createElement("script");
+            script.src = "https://checkout.razorpay.com/v1/checkout.js";
+            script.onload = resolve;
+            script.onerror = reject;
+            document.body.appendChild(script);
+          });
+
+        await loadRzp();
+
+        const options = {
+          key: key_id,
+          amount: razorpayOrder.amount,
+          currency: razorpayOrder.currency,
+          name: "DishHub",
+          description: "Order Payment",
+          order_id: razorpayOrder.id,
+          handler: async function (response) {
+            try {
+              // Verify payment on server
+              await axios.post("/order/verify", {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                orderId: order._id,
+              });
+              setPlacing(false);
+              navigate("/orders");
+            } catch (err) {
+              setPlacing(false);
+              alert(err?.response?.data?.message || "Payment verification failed");
+            }
+          },
+          prefill: {
+            // optional: fill with user's data if available
+          },
+          theme: { color: "#F97316" },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+        return;
+      }
+
       setPlacing(false);
       // navigate to orders page
       navigate("/orders");
@@ -127,7 +180,30 @@ const Checkout = () => {
 
       <aside className="space-y-4">
         <div className="rounded-xl border border-surface bg-card p-4">
-          <h2 className="font-bold text-off-white mb-2">Summary</h2>
+          <h2 className="font-bold text-primary mb-2">Summary</h2>
+          <div className="mt-4 mb-6">
+            <h3 className="font-semibold text-off-white">Select Payment Type</h3>
+            <label className="flex items-center gap-2 mt-2">
+              <input
+                type="radio"
+                name="payment"
+                value="COD"
+                checked={paymentType === "COD"}
+                onChange={() => setPaymentType("COD")}
+              />
+              <span className="text-muted">Cash on Delivery (COD)</span>
+            </label>
+            <label className="flex items-center gap-2 mt-2">
+              <input
+                type="radio"
+                name="payment"
+                value="Razorpay"
+                checked={paymentType === "Razorpay"}
+                onChange={() => setPaymentType("Razorpay")}
+              />
+              <span className="text-muted">Pay with Razorpay</span>
+            </label>
+          </div>
           <div className="flex justify-between text-muted">
             <span>Subtotal</span>
             <span>₹{subtotal.toFixed(2)}</span>
