@@ -40,7 +40,7 @@ export const SubmitBtn = ({
   className = "",
 }) => {
   const defaultClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold cursor-pointer hover:scale-103 transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
+    "inline-flex items-center justify-center px-4 py-2 rounded-md font-extrabold cursor-pointer hover:scale-103 transition disabled:opacity-50 bg-primary hover:bg-primary-600 text-black w-full";
   const classes = `${defaultClasses} ${className || ""}`.trim();
 
   return (

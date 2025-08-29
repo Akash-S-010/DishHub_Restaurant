@@ -85,13 +85,15 @@ const Checkout = () => {
               navigate("/orders");
             } catch (err) {
               setPlacing(false);
-              alert(err?.response?.data?.message || "Payment verification failed");
+              alert(
+                err?.response?.data?.message || "Payment verification failed"
+              );
             }
           },
           prefill: {
             // optional: fill with user's data if available
           },
-          theme: { color: "#F97316" },
+          theme: { color: "#f59e0b" },
         };
 
         const rzp = new window.Razorpay(options);
@@ -182,7 +184,9 @@ const Checkout = () => {
         <div className="rounded-xl border border-surface bg-card p-4">
           <h2 className="font-bold text-primary mb-2">Summary</h2>
           <div className="mt-4 mb-6">
-            <h3 className="font-semibold text-off-white">Select Payment Type</h3>
+            <h3 className="font-semibold text-off-white">
+              Select Payment Type
+            </h3>
             <label className="flex items-center gap-2 mt-2">
               <input
                 type="radio"
