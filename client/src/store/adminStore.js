@@ -178,7 +178,7 @@ const useAdminStore = create((set, get) => ({
   toggleUserBlock: async (userId, isBlocked) => {
     set({ loading: true, error: null })
     try {
-      await axios.put(`/user/${userId}/block`, { isBlocked })
+      await axios.patch(`/user/${userId}/block`, { isBlocked })
       set(state => ({
         users: state.users.map(user => 
           user._id === userId ? { ...user, isBlocked } : user

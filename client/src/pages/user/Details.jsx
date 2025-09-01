@@ -57,7 +57,7 @@ const Details = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-18 min-h-screen">
+    <div className="max-w-7xl mx-auto px-4 py-18">
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="rounded-xl border border-surface bg-card overflow-hidden">
           {food.image && (

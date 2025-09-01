@@ -9,7 +9,7 @@ const AdminRoute = ({ children }) => {
   const hydrateUser = useAuthStore((s) => s.hydrateUser)
   const initialHydrationDone = useRef(false)
 
-  // Attempt to hydrate user when component mounts (only once)
+  // Attempt to validate admin role when component mounts (only once)
   useEffect(() => {
     const checkAuth = async () => {
       if (!initialHydrationDone.current) {
@@ -20,22 +20,28 @@ const AdminRoute = ({ children }) => {
         if (storedUser) {
           try {
             const parsedUser = JSON.parse(storedUser)
-            useAuthStore.setState({ user: parsedUser, loading: false })
+            // Check if the stored user is an admin before setting the state
+            if (parsedUser && parsedUser.role === 'admin') {
+              useAuthStore.setState({ user: parsedUser, loading: false })
+              // We don't need to call hydrateUser() here as it's already called in App.jsx
+              // This prevents continuous API calls
+            } else {
+              // If stored user is not an admin, clear it
+              localStorage.removeItem('authUser')
+              // We don't need to call hydrateUser() here as it will be handled by App.jsx
+            }
           } catch (err) {
             // Invalid stored data, remove it
             localStorage.removeItem('authUser')
-            // Then try to hydrate from server
-            await hydrateUser()
+            // We don't need to call hydrateUser() here as it will be handled by App.jsx
           }
-        } else {
-          // No stored user, try to hydrate from server
-          await hydrateUser()
         }
+        // No need to call hydrateUser() here as it's already called in App.jsx
       }
     }
     
     checkAuth()
-  }, [])
+  }, [hydrateUser])
 
   // Show loading while authentication is being checked
   if (loading) {

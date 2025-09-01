@@ -19,19 +19,20 @@ const useAuthStore = create((set, get) => ({
             // Store in state and localStorage for persistence
             if (user) {
                 localStorage.setItem('authUser', JSON.stringify(user))
+                set({ user, loading: false })
+                return user
+            } else {
+                // If server returns no user, clear localStorage and state
+                // This is crucial for admin authentication
+                localStorage.removeItem('authUser')
+                set({ user: null, loading: false })
+                return null
             }
-            
-            set({ user, loading: false })
-            return user
         } catch (err) {
-            // Try to get from localStorage as fallback
-            const storedUser = localStorage.getItem('authUser')
-            if (storedUser) {
-                const parsedUser = JSON.parse(storedUser)
-                set({ user: parsedUser, loading: false })
-                return parsedUser
-            }
-            
+            // API call failed - could be expired token or server error
+            // For admin routes, we should be strict about authentication
+            // and not rely on potentially outdated localStorage data
+            localStorage.removeItem('authUser')
             set({ user: null, loading: false, error: err })
             // no toast here to avoid noise on first load
             return null

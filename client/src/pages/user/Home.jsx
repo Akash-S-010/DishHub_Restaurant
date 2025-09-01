@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Apple, Play } from "lucide-react";
+import heroImg from "../../assets/Hero.png";
 import Button from "../../components/ui/Button";
 import FoodCard from "../../components/user/FoodCard";
 import useFoodStore from "../../store/foodStore.js";
@@ -29,10 +30,10 @@ const Home = () => {
       {/* Hero */}
       <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-off-white">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-off-white mb-4">
             Taste the Best. Delivered Fast.
           </h1>
-          <p className="text-muted md:text-lg">
+          <p className="text-muted md:text-lg mb-10">
             Burgers, pizzas, fries and more. Crafted fresh, delivered hot. Order
             now and satisfy your cravings.
           </p>
@@ -51,7 +52,9 @@ const Home = () => {
             </Button>
           </div>
         </div>
-        <div className="rounded-2xl overflow-hidden border border-surface bg-card min-h-[260px] md:min-h-[360px]" />
+        <div>
+          <img src={heroImg} alt="hero img" className="w-full h-auto" />
+        </div>
       </section>
 
       {/* Highlights */}

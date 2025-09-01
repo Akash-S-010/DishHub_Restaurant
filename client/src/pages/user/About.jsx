@@ -12,6 +12,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import Button from "../../components/ui/Button";
+import Lottie from "lottie-react";
+import Cooking from "../../assets/Cooking.json";
 
 const About = () => {
   return (
@@ -43,15 +45,7 @@ const About = () => {
             </Button>
           </div>
         </div>
-
-        <div className="rounded-xl overflow-hidden border border-surface bg-card h-56 flex items-center justify-center">
-          {/* placeholder image - replace src with your own */}
-          <img
-            src="/src/assets/Restaurant website Pre loader.json"
-            alt="hero"
-            className="object-cover w-full h-full opacity-80"
-          />
-        </div>
+        <Lottie animationData={Cooking} loop={true} autoplay={true} className="size-120"/>
       </section>
 
       {/* Mission + Values */}

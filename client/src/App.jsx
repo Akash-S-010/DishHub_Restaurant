@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/user/Navbar";
 import Loader from "./components/ui/Loader";
@@ -31,21 +31,34 @@ const App = () => {
   const hydrateUser = useAuthStore((s) => s.hydrateUser);
   const authLoading = useAuthStore((s) => s.loading);
 
+  // Use a ref to track if hydration has been done
+  const initialHydrationDone = useRef(false);
+
   useEffect(() => {
-    // Check localStorage first for immediate user state
-    const storedUser = localStorage.getItem('authUser');
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        useAuthStore.setState({ user: parsedUser, loading: false });
-      } catch (err) {
-        // Invalid stored data, remove it
-        localStorage.removeItem('authUser');
+    const initAuth = async () => {
+      // Only run this once
+      if (initialHydrationDone.current) return;
+      initialHydrationDone.current = true;
+      
+      // Check localStorage first for immediate user state
+      const storedUser = localStorage.getItem('authUser');
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          useAuthStore.setState({ user: parsedUser, loading: false });
+        } catch (err) {
+          // Invalid stored data, remove it
+          localStorage.removeItem('authUser');
+        }
       }
-    }
+      
+      // Hydrate the user from the server for fresh data
+      // This ensures the token is still valid
+      // This is crucial for admin authentication persistence
+      await hydrateUser();
+    };
     
-    // hydrate the user from the server for fresh data
-    hydrateUser();
+    initAuth();
   }, [hydrateUser]);
 
   if (authLoading) return <Loader />;

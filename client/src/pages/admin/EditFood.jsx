@@ -4,6 +4,7 @@ import { Upload, Plus, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import useAdminStore from '../../store/adminStore'
 import { toast } from 'react-hot-toast'
+import axios from '../../config/axios'
 
 const EditFood = () => {
   const navigate = useNavigate()
@@ -27,8 +28,8 @@ const EditFood = () => {
 
   const fetchFood = async () => {
     try {
-      const response = await fetch(`/api/food/${id}`)
-      const food = await response.json()
+      const response = await axios.get(`/food/${id}`)
+      const food = response.data
       setFormData({
         name: food.name,
         description: food.description,

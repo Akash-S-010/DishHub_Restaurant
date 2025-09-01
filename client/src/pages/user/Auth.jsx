@@ -1,4 +1,6 @@
 import React from "react";
+import Lottie from "lottie-react";
+import logo from "../../assets/DishHub_Logo.png";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../store/authStore.js";
@@ -130,14 +132,9 @@ const Auth = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 grid lg:grid-cols-2 gap-10 items-center">
-      {/* Left: brand/illustration */}
-      <div className="hidden lg:block">
-        <div className="rounded-2xl border border-surface bg-card h-[420px]" />
-      </div>
-
-      {/* Right: form */}
+    <div className="max-w-xl mx-auto px-4 py-10 items-center">
       <div className="rounded-2xl border border-surface bg-card p-6 md:p-8">
+        <img src={logo} className="mx-auto w-20 mb-6" alt="logo" />
         <div className="flex items-center gap-6 mb-6">
           <NavLink
             to="/auth/login"
