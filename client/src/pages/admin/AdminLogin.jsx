@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Lock, Eye, EyeOff } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 import { toast } from 'react-hot-toast'
+import { SubmitBtn } from '../../components/ui/button'
 
 const AdminLogin = () => {
   const navigate = useNavigate()
@@ -38,26 +39,26 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-orange-500 rounded-full flex items-center justify-center">
-            <Lock className="h-8 w-8 text-white" />
+          <div className="mx-auto h-16 w-16 bg-primary rounded-full flex items-center justify-center">
+            <Lock className="h-8 w-8 text-off-white" />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-3xl font-extrabold text-primary">
             Admin Login
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-muted">
             Access the restaurant management panel
           </p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="rounded-lg shadow-lg p-8 border bg-card border-surface">
             <div className="space-y-6">
               {/* Email Field */}
               <div>
-                <label htmlFor="login" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="login" className="block text-sm font-medium text-off-white mb-2">
                   Email Address
                 </label>
                 <input
@@ -68,14 +69,14 @@ const AdminLogin = () => {
                   required
                   value={formData.login}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                  className="w-full px-3 py-3 border border-surface rounded-lg"
                   placeholder="admin@restaurant.com"
                 />
               </div>
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-off-white mb-2">
                   Password
                 </label>
                 <div className="relative">
@@ -87,7 +88,7 @@ const AdminLogin = () => {
                     required
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                    className="w-full px-3 py-3 pr-10 border border-surface rounded-lg"
                     placeholder="Enter your password"
                   />
                   <button
@@ -106,10 +107,8 @@ const AdminLogin = () => {
 
               {/* Submit Button */}
               <div>
-                <button
-                  type="submit"
+                <SubmitBtn
                   disabled={loading}
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {loading ? (
                     <div className="flex items-center">
@@ -119,7 +118,7 @@ const AdminLogin = () => {
                   ) : (
                     'Sign in to Admin Panel'
                   )}
-                </button>
+                </SubmitBtn>
               </div>
 
               {/* Back to Main Site */}
@@ -127,7 +126,7 @@ const AdminLogin = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/')}
-                  className="text-sm text-orange-600 hover:text-orange-500 transition-colors"
+                  className="text-surface"
                 >
                   ← Back to main site
                 </button>
@@ -138,7 +137,7 @@ const AdminLogin = () => {
 
         {/* Admin Notice */}
         <div className="text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-surface">
             This panel is restricted to authorized administrators only.
           </p>
         </div>
