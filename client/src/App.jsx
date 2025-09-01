@@ -44,7 +44,7 @@ const App = () => {
       }
     }
     
-    // Still attempt to hydrate the user from the server for fresh data
+    // hydrate the user from the server for fresh data
     hydrateUser();
   }, [hydrateUser]);
 

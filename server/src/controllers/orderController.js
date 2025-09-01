@@ -44,10 +44,15 @@ export const placeOrder = async (req, res) => {
 
     await order.save();
 
-    // Add order to user's order history & clear cart
+    // Add order to user's order history
     const user = await User.findById(userId);
     user.orderHistory.push(order.id);
-    user.cart = []; // clear cart after placing order
+    
+    // Only clear cart for COD orders immediately
+    // For Razorpay, we'll clear it after payment verification
+    if (paymentType === "COD") {
+      user.cart = []; // clear cart after placing order
+    }
     await user.save();
 
     // If Razorpay payment requested, create a Razorpay order and return details to client
@@ -108,10 +113,46 @@ export const verifyPayment = async (req, res) => {
     order.orderStatus = "Preparing";
     order.razorpayPaymentId = razorpay_payment_id;
     await order.save();
+    
+    // Clear the user's cart after successful payment verification
+    const user = await User.findById(order.user);
+    if (user) {
+      user.cart = [];
+      await user.save();
+    }
 
     return res.status(200).json({ message: "Payment verified successfully", order });
   } catch (error) {
     console.error("Error in verifyPayment:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Cancel Razorpay Payment
+export const cancelPayment = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    
+    // Find the order
+    const order = await Order.findById(orderId);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+    
+    // Only delete if it's a Razorpay order that's still pending
+    if (order.paymentType === "Razorpay" && order.paymentStatus === "pending") {
+      // Delete the order completely instead of marking it as failed
+      await Order.findByIdAndDelete(orderId);
+      
+      // Remove the order from user's order history
+      const user = await User.findById(order.user);
+      if (user) {
+        user.orderHistory = user.orderHistory.filter(id => id.toString() !== orderId.toString());
+        await user.save();
+      }
+    }
+    
+    return res.status(200).json({ message: "Payment cancelled" });
+  } catch (error) {
+    console.error("Error in cancelPayment:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

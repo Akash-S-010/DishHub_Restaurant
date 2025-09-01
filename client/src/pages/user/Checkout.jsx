@@ -9,6 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const items = useCartStore((s) => s.items);
   const hydrateCart = useCartStore((s) => s.hydrate);
+  const clearCart = useCartStore((s) => s.clear);
   const addresses = useAddressStore((s) => s.addresses);
   const hydrateAddresses = useAddressStore((s) => s.hydrate);
 
@@ -81,6 +82,7 @@ const Checkout = () => {
                 razorpay_signature: response.razorpay_signature,
                 orderId: order._id,
               });
+              clearCart(); // Clear cart after successful payment
               setPlacing(false);
               navigate("/orders");
             } catch (err) {
@@ -88,6 +90,25 @@ const Checkout = () => {
               alert(
                 err?.response?.data?.message || "Payment verification failed"
               );
+            }
+          },
+          modal: {
+            ondismiss: async function() {
+              // This function is called when user closes the Razorpay modal without payment
+              try {
+                // Notify server that payment was cancelled
+                await axios.post("/order/cancel", {
+                  orderId: order._id
+                });
+                setPlacing(false);
+                // No need to show alert as the order is now deleted
+                // Refresh cart to ensure it still has items
+                hydrateCart();
+              } catch (err) {
+                setPlacing(false);
+                // Silently handle error
+                hydrateCart();
+              }
             }
           },
           prefill: {
@@ -101,6 +122,7 @@ const Checkout = () => {
         return;
       }
 
+      clearCart(); // Clear cart after successful order placement
       setPlacing(false);
       // navigate to orders page
       navigate("/orders");

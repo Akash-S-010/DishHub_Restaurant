@@ -31,21 +31,25 @@ const Details = () => {
 
   if (!food) return null;
 
-  const stars = Array.from({ length: 5 }, (_, i) => i < Math.floor(food.avgRating || 0));
-  const isInWishlist = (foodId) => wishlist?.some((w) => (w._id || w) === foodId);
+  const stars = Array.from(
+    { length: 5 },
+    (_, i) => i < Math.floor(food.avgRating || 0)
+  );
+  const isInWishlist = (foodId) =>
+    wishlist?.some((w) => (w._id || w) === foodId);
 
   const handleAddToCart = async () => {
     if (!user) {
-      navigate('/auth/login');
+      navigate("/auth/login");
       return;
     }
     await addCart(food._id, qty);
-    navigate('/cart');
+    navigate("/cart");
   };
 
   const handleWishlistToggle = async () => {
     if (!user) {
-      navigate('/auth/login');
+      navigate("/auth/login");
       return;
     }
     isInWishlist(food._id) ? await remove(food._id) : await add(food._id);
@@ -53,7 +57,7 @@ const Details = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 pt-18 min-h-screen">
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="rounded-xl border border-surface bg-card overflow-hidden">
           {food.image && (
@@ -78,7 +82,9 @@ const Details = () => {
             )}
           </div>
 
-          <h1 className="text-3xl font-extrabold text-off-white">{food.name}</h1>
+          <h1 className="text-3xl font-extrabold text-off-white">
+            {food.name}
+          </h1>
           <div className="flex items-center gap-2 justify-center lg:justify-start">
             {stars.map((on, i) => (
               <Star
@@ -97,7 +103,9 @@ const Details = () => {
           <p className="text-muted leading-relaxed">{food.description}</p>
 
           <div className="flex items-center justify-center lg:justify-start mb-2">
-            <span className="text-primary text-3xl font-extrabold">₹{food.price}</span>
+            <span className="text-primary text-3xl font-extrabold">
+              ₹{food.price}
+            </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
@@ -136,31 +144,30 @@ const Details = () => {
               {isInWishlist(food._id) ? "Wishlisted" : "Wishlist"}
             </Button>
           </div>
-
-          {Array.isArray(food.reviews) && food.reviews.length > 0 && (
-            <div className="pt-4 border-t border-surface">
-              <h3 className="font-bold text-off-white mb-3">Recent Reviews</h3>
-              <div className="space-y-3">
-                {food.reviews.slice(0, 3).map((r, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-lg border border-surface bg-card p-3 text-sm"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">⭐ {r.rating}</span>
-                      <span className="text-muted">
-                        {new Date(r.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    {r.comment && (
-                      <p className="mt-1 text-off-white/90">{r.comment}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
+        {Array.isArray(food.reviews) && food.reviews.length > 0 && (
+          <div className="pt-4 border-t border-surface">
+            <h3 className="font-bold text-off-white mb-3">Recent Reviews</h3>
+            <div className="space-y-3">
+              {food.reviews.slice(0, 3).map((r, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-lg border border-surface bg-card p-3 text-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-primary">⭐ {r.rating}</span>
+                    <span className="text-muted">
+                      {new Date(r.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  {r.comment && (
+                    <p className="mt-1 text-off-white/90">{r.comment}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
