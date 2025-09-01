@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Heart, ShoppingCart, User } from "lucide-react";
+import { Heart, ShoppingCart, User, LogOut } from "lucide-react";
 import logo from "../../assets/DishHub_Logo.png";
 import useAuthStore from "../../store/authStore.js";
 import useCartStore from "../../store/cartStore.js";
@@ -8,6 +8,7 @@ import { Button } from "../ui/Button.jsx";
 
 const Navbar = () => {
   const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
   const cartCount = useCartStore((s) =>
     s.items.reduce((sum, it) => sum + (it.quantity || 0), 0)
   );
@@ -28,6 +29,15 @@ const Navbar = () => {
     document.addEventListener('click', onDocClick);
     return () => document.removeEventListener('click', onDocClick);
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setMenuOpen(false);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm shadow-sm border-b border-surface">
@@ -139,6 +149,14 @@ const Navbar = () => {
                       <Link to="/profile" className="block px-4 py-2 text-sm text-off-white hover:bg-bg">Profile</Link>
                       <Link to="/orders" className="block px-4 py-2 text-sm text-off-white hover:bg-bg">Orders</Link>
                       <Link to="/address" className="block px-4 py-2 text-sm text-off-white hover:bg-bg">Address</Link>
+                      <hr className="border-surface my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-bg hover:text-red-300"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
                     </div>
                   )}
                 </div>

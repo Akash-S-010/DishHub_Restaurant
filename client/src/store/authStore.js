@@ -12,11 +12,26 @@ const useAuthStore = create((set, get) => ({
     hydrateUser: async () => {
         set({ loading: true, error: null })
         try {
+            // Try to get user from server
             const res = await axios.get('/user/me')
             const user = res?.data ?? null
+            
+            // Store in state and localStorage for persistence
+            if (user) {
+                localStorage.setItem('authUser', JSON.stringify(user))
+            }
+            
             set({ user, loading: false })
             return user
         } catch (err) {
+            // Try to get from localStorage as fallback
+            const storedUser = localStorage.getItem('authUser')
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser)
+                set({ user: parsedUser, loading: false })
+                return parsedUser
+            }
+            
             set({ user: null, loading: false, error: err })
             // no toast here to avoid noise on first load
             return null
@@ -30,6 +45,12 @@ const useAuthStore = create((set, get) => ({
         try {
             const res = await axios.post('/user/login', credentials)
             const user = res?.data?.user ?? res?.data ?? null
+            
+            // Store user in localStorage for persistence
+            if (user) {
+                localStorage.setItem('authUser', JSON.stringify(user))
+            }
+            
             set({ user, loading: false })
             toast.success('Welcome back!')
             return { ok: true, user, data: res.data }
@@ -46,6 +67,12 @@ const useAuthStore = create((set, get) => ({
         try {
             const res = await axios.post('/user/signup', payload)
             const user = res?.data?.user ?? res?.data ?? null
+            
+            // Store user in localStorage for persistence
+            if (user) {
+                localStorage.setItem('authUser', JSON.stringify(user))
+            }
+            
             set({ user, loading: false })
             toast.success('Account created!')
             return { ok: true, user, data: res.data }
@@ -61,24 +88,37 @@ const useAuthStore = create((set, get) => ({
         set({ loading: true, error: null })
         try {
             await axios.post('/user/logout')
+            
+            // Clear localStorage on logout
+            localStorage.removeItem('authUser')
+            
             set({ user: null, loading: false })
             toast('Logged out')
             return { ok: true }
         } catch (err) {
-            set({ loading: false, error: err })
+            // Still clear localStorage even if API call fails
+            localStorage.removeItem('authUser')
+            
+            set({ loading: false, error: err, user: null })
             toast.error(err?.response?.data?.message || 'Logout failed')
             return { ok: false, error: err }
         }
     },
 
-    // update profile -> PUT /user/update-profile
+    // update profile -> PUT /user/update-profile { name, email, phone, password }
     updateProfile: async (payload) => {
         set({ loading: true, error: null })
         try {
             const res = await axios.put('/user/update-profile', payload)
             const user = res?.data?.user ?? res?.data ?? null
+            
+            // Update user in localStorage for persistence
+            if (user) {
+                localStorage.setItem('authUser', JSON.stringify(user))
+            }
+            
             set({ user, loading: false })
-            toast.success('Profile updated')
+            toast.success('Profile updated!')
             return { ok: true, user, data: res.data }
         } catch (err) {
             set({ loading: false, error: err })

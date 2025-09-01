@@ -14,6 +14,15 @@ import Profile from "./pages/user/Profile";
 import Address from "./pages/user/Address";
 import Checkout from "./pages/user/Checkout";
 import Orders from "./pages/user/Orders";
+import AdminRoute from "./routes/AdminRoute";
+import AdminLayout from "./layouts/AdminLayout.jsx";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AddFood from "./pages/admin/AddFood";
+import FoodsList from "./pages/admin/FoodsList";
+import EditFood from "./pages/admin/EditFood";
+import OrdersList from "./pages/admin/OrdersList";
+import UsersList from "./pages/admin/UsersList";
 import useAuthStore from "./store/authStore.js";
 import Error from "./pages/shared/Error";
 import Footer from "./components/user/Footer.jsx";
@@ -23,37 +32,63 @@ const App = () => {
   const authLoading = useAuthStore((s) => s.loading);
 
   useEffect(() => {
-    // attempt to hydrate the user from the server (will set loading)
+    // Check localStorage first for immediate user state
+    const storedUser = localStorage.getItem('authUser');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        useAuthStore.setState({ user: parsedUser, loading: false });
+      } catch (err) {
+        // Invalid stored data, remove it
+        localStorage.removeItem('authUser');
+      }
+    }
+    
+    // Still attempt to hydrate the user from the server for fresh data
     hydrateUser();
-  }, []);
+  }, [hydrateUser]);
 
   if (authLoading) return <Loader />;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <Routes>
+      {/* User Routes with User Layout */}
+      <Route path="*" element={
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1 pt-18">
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="menu" element={<Menu />} />
+              <Route path="food/:id" element={<Details />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="address" element={<Address />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="auth/:mode" element={<Auth />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      } />
 
-      <main className="flex-1 pt-18">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/food/:id" element={<Details />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/address" element={<Address />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/auth/:mode" element={<Auth />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </main>
+      {/* Admin Routes */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="add-food" element={<AddFood />} />
+        <Route path="foods" element={<FoodsList />} />
+        <Route path="foods/edit/:id" element={<EditFood />} />
+        <Route path="orders" element={<OrdersList />} />
+        <Route path="users" element={<UsersList />} />
+      </Route>
 
-      <Footer />
-    </div>
+      <Route path="*" element={<Error />} />
+    </Routes>
   );
 };
 

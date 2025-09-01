@@ -22,6 +22,10 @@ const useCartStore = create((set, get) => ({
       set({ items: data, loading: false })
     } catch (err) {
       set({ loading: false, error: err })
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error(err?.response?.data?.message || 'Could not load cart')
+      }
     }
   },
 
@@ -32,7 +36,10 @@ const useCartStore = create((set, get) => ({
       set({ items: data })
       toast.success('Added to cart')
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Could not add to cart')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error(err?.response?.data?.message || 'Could not add to cart')
+      }
     }
   },
 
@@ -42,7 +49,10 @@ const useCartStore = create((set, get) => ({
       const { data } = await axios.get('/cart')
       set({ items: data })
     } catch (err){
-      toast.error('Update failed')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error('Update failed')
+      }
     }
   },
 
@@ -53,7 +63,10 @@ const useCartStore = create((set, get) => ({
       set({ items: data })
       toast('Removed from cart')
     } catch (err){
-      toast.error('Remove failed')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error('Remove failed')
+      }
     }
   },
 
@@ -63,7 +76,10 @@ const useCartStore = create((set, get) => ({
       set({ items: [] })
       toast('Cart cleared')
     } catch (err){
-      toast.error('Clear failed')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error('Clear failed')
+      }
     }
   }
 }))

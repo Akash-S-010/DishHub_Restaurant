@@ -14,7 +14,10 @@ const useWishlistStore = create((set, get) => ({
       set({ items: data, loading: false })
     } catch (err) {
       set({ loading: false, error: err })
-      toast.error(err?.response?.data?.message || 'Could not load wishlist')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error(err?.response?.data?.message || 'Could not load wishlist')
+      }
     }
   },
 
@@ -27,7 +30,10 @@ const useWishlistStore = create((set, get) => ({
       toast.success('Added to wishlist')
     } catch (err) {
       set({ loading: false, error: err })
-      toast.error(err?.response?.data?.message || 'Could not add to wishlist')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error(err?.response?.data?.message || 'Could not add to wishlist')
+      }
     }
   },
 
@@ -39,7 +45,10 @@ const useWishlistStore = create((set, get) => ({
       toast('Removed from wishlist')
     } catch (err) {
       set({ loading: false, error: err })
-      toast.error(err?.response?.data?.message || 'Could not remove from wishlist')
+      // Only show toast for non-authentication errors
+      if (err?.response?.status !== 401) {
+        toast.error(err?.response?.data?.message || 'Could not remove from wishlist')
+      }
     }
   }
 }))

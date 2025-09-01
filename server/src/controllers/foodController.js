@@ -3,7 +3,15 @@ import Food from "../models/Food.js";
 // Add a new food item
 export const createFood = async (req, res) => {
     try {
-        const { name, category, price, description, image, stockAvailable } = req.body;
+        const { name, category, price, description, stockAvailable } = req.body;
+        
+        // Get the image URL from Cloudinary (added by multer middleware)
+        const image = req.file ? req.file.path : null;
+        
+        if (!image) {
+            return res.status(400).json({ message: "Food image is required" });
+        }
+        
         const food = await Food.create({ name, category, price, description, image, stockAvailable });
         return res.status(201).json({ message: "food created successfully", food });
     } catch (error) {
@@ -17,9 +25,17 @@ export const createFood = async (req, res) => {
 export const updateFood = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, category, price, description, image, stockAvailable } = req.body;
+        const { name, category, price, description, stockAvailable } = req.body;
+        
+        // Create update object
+        const updateData = { name, category, price, description, stockAvailable };
+        
+        // If a new image was uploaded, add it to the update data
+        if (req.file) {
+            updateData.image = req.file.path;
+        }
 
-        const food = await Food.findByIdAndUpdate(id, { name, category, price, description, image, stockAvailable }, { new: true });
+        const food = await Food.findByIdAndUpdate(id, updateData, { new: true });
 
         if (!food) {
             return res.status(404).json({ message: "Food not found" });
