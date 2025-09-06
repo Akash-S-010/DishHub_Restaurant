@@ -30,10 +30,10 @@ const Home = () => {
       {/* Hero */}
       <section className="grid md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-off-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-off-white">
             Taste the Best. Delivered Fast.
           </h1>
-          <p className="text-muted md:text-lg mb-10">
+          <p className="text-muted md:text-lg">
             Burgers, pizzas, fries and more. Crafted fresh, delivered hot. Order
             now and satisfy your cravings.
           </p>
