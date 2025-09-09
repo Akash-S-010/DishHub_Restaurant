@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import useAdminStore from '../../store/adminStore'
 import { toast } from 'react-hot-toast'
 import axios from '../../config/axios'
+import { SubmitBtn } from '../../components/ui/Button'
 
 const EditFood = () => {
   const navigate = useNavigate()
@@ -14,13 +15,13 @@ const EditFood = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    category: 'Salad',
+    category: 'Pizza',
     price: '',
     image: '',
     stockAvailable: true
   })
 
-  const categories = ['Salad', 'Rolls', 'Deserts', 'Sandwich', 'Cake']
+  const categories = ['Pizza', 'Burger', 'Sandwich', 'Pasta']
 
   useEffect(() => {
     fetchFood()
@@ -101,27 +102,27 @@ const EditFood = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-bg">
       <div className="flex items-center gap-4 mb-6">
         <Link
           to="/admin/foods"
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
+          className="flex items-center gap-2 text-muted hover:text-gray-800"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-primary" />
           Back to Foods
         </Link>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Edit Food Item</h2>
+      <h2 className="text-2xl font-bold text-primary mb-6">Edit Food Item</h2>
       
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-bg  shadow-sm p-6">
         <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
           {/* Upload Image */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-off-white mb-2">
               Upload image
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-surface rounded-lg p-6 text-center">
               {formData.imagePreview || formData.image ? (
                 <div className="space-y-2">
                   <img 
@@ -150,7 +151,7 @@ const EditFood = () => {
                   />
                   <label
                     htmlFor="image-upload"
-                    className="mt-2 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+                    className="mt-2 inline-flex items-center px-4 py-2  rounded-md shadow-sm text-sm font-medium text-bg bg-primary hover:bg-primary/85 transition cursor-pointer"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Upload Image
@@ -162,7 +163,7 @@ const EditFood = () => {
 
           {/* Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-off-white mb-2">
               Food Name
             </label>
             <input
@@ -171,14 +172,14 @@ const EditFood = () => {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter food name"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-off-white mb-2">
               Description
             </label>
             <textarea
@@ -187,21 +188,21 @@ const EditFood = () => {
               onChange={handleInputChange}
               required
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter food description"
             />
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-off-white mb-2">
               Category
             </label>
             <select
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border bg-bg border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             >
               {categories.map(category => (
                 <option key={category} value={category}>
@@ -213,7 +214,7 @@ const EditFood = () => {
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-off-white mb-2">
               Price (₹)
             </label>
             <input
@@ -224,7 +225,7 @@ const EditFood = () => {
               required
               min="0"
               step="0.01"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter price"
             />
           </div>
@@ -236,26 +237,20 @@ const EditFood = () => {
               name="stockAvailable"
               checked={formData.stockAvailable}
               onChange={handleInputChange}
-              className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+              className="h-4 w-4 text-orange-100 focus:ring-primary border-surface rounded"
             />
-            <label className="ml-2 block text-sm text-gray-900">
+            <label className="ml-2 block text-sm text-off">
               Available in stock
             </label>
           </div>
 
           {/* Submit Button */}
           <div className="flex gap-4">
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {saving ? 'Updating...' : 'Update Food Item'}
-            </button>
+            <SubmitBtn loading={loading} disabled={loading} />
             <button
               type="button"
               onClick={() => navigate('/admin/foods')}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+              className="px-4 py-2 border border-surface text-off-white rounded-md hover:bg-gray-50"
             >
               Cancel
             </button>

@@ -127,7 +127,7 @@ const AddFood = () => {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter food name"
             />
           </div>
@@ -143,7 +143,7 @@ const AddFood = () => {
               onChange={handleInputChange}
               required
               rows={3}
-              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter food description"
             />
           </div>
@@ -180,7 +180,7 @@ const AddFood = () => {
               required
               min="0"
               step="0.01"
-              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-surface rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="Enter price"
             />
           </div>
@@ -192,7 +192,7 @@ const AddFood = () => {
               name="stockAvailable"
               checked={formData.stockAvailable}
               onChange={handleInputChange}
-              className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-surface rounded"
+              className="h-4 w-4 text-orange-100 focus:ring-primary border-surface rounded"
             />
             <label className="ml-2 block text-sm text-muted">
               Available in stock
