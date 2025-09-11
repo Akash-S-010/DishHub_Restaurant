@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Lock, Eye, EyeOff } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 import { toast } from 'react-hot-toast'
-import { SubmitBtn } from '../../components/ui/button'
+import { SubmitBtn } from '../../components/ui/Button'
 
 const AdminLogin = () => {
   const navigate = useNavigate()
