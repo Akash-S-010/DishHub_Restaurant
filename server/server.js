@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 
 // test route
-app.use("/api/status", (req, res) => {
+app.get("/api/status", (req, res) => {
     res.send("Server is running");
 })
 
