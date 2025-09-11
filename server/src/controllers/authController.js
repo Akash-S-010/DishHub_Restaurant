@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import generateToken from '../utils/Token.js';
+import generateToken from '../utils/token.js';
 
 // Common cookie settings
 const cookieOptions = {
