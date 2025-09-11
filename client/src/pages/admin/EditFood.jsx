@@ -4,8 +4,8 @@ import { Upload, Plus, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import useAdminStore from '../../store/adminStore'
 import { toast } from 'react-hot-toast'
-import axios from '../../config/axios.js'
-import { SubmitBtn } from "../../components/ui/Button"
+import axios from '../../config/axios'
+import { SubmitBtn } from '../../components/ui/Button'
 
 const EditFood = () => {
   const navigate = useNavigate()
