@@ -5,7 +5,7 @@ import AdminFooter from '../components/admin/AdminFooter.jsx'
 
 const AdminLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-bg">
       <AdminNavbar />
       <main className="flex-1">
         <Outlet />
