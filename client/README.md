@@ -1,12 +1,65 @@
-# React + Vite
+# Client (Frontend) - DishHub Restaurant Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This directory contains the frontend application for the Restaurant Site, built with React.js.
 
-Currently, two official plugins are available:
+## Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React.js**: A JavaScript library for building user interfaces.
+- **React Router DOM**: For declarative routing in React applications.
+- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+- **Zustand**: A small, fast, and scalable bearbones state-management solution.
+- **Axios**: A promise-based HTTP client for the browser and Node.js.
+- **Razorpay**: For secure online payments.
+- **Vite**: A fast build tool that provides a lightning-fast development experience.
 
-## Expanding the ESLint configuration
+## Available Scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+In the project directory, you can run:
+
+### `npm install`
+
+Installs all the necessary dependencies for the frontend application.
+
+### `npm run dev`
+
+Runs the app in the development mode.
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+
+The page will reload if you make edits.
+You will also see any lint errors in the console.
+
+### `npm run build`
+
+Builds the app for production to the `dist` folder.
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.
+Your app is ready to be deployed!
+
+## Project Structure
+
+```
+client/
+├── public/             # Static assets
+├── src/
+│   ├── assets/         # Images, icons, etc.
+│   ├── components/     # Reusable UI components
+│   │   └── ui/         # UI specific components like Button, Loader
+│   ├── config/         # Frontend specific configurations (e.g., axios instance)
+│   ├── layouts/        # Layout components (e.g., header, footer)
+│   ├── pages/          # Page-specific components (e.g., Home, Admin, User)
+│   ├── routes/         # React Router configuration
+│   ├── store/          # Zustand store for state management
+│   ├── App.jsx         # Main application component
+│   ├── index.css       # Global styles
+│   └── main.jsx        # Entry point for the React application
+├── .gitignore
+├── index.html
+├── package.json        # Project dependencies and scripts
+├── vite.config.js      # Vite configuration
+└── README.md           # This file
+```
+
+## Deployment
+
+This frontend application can be deployed to platforms like Vercel, Netlify, or other static site hosting services. Ensure that environment variables (if any) are correctly configured on your chosen platform.
