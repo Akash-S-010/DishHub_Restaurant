@@ -25,7 +25,7 @@ To get this project up and running on your local machine, follow these steps:
 
 1.  **Clone the repository**:
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/Akash-S-010/DishHub_Restaurant
     cd Restaurant_site
     ```
 
@@ -79,7 +79,3 @@ Restaurant_site/
 ## Contributing
 
 Contributions are welcome! Please feel free to fork the repository, create a new branch, and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
