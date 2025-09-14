@@ -79,9 +79,9 @@ const Orders = () => {
                 key={o._id}
                 className="rounded-xl border border-surface bg-card p-4 mb-4 shadow-sm"
               >
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                   {/* Left Section */}
-                  <div>
+                  <div className="flex-grow">
                     <div className="font-semibold text-off-white text-lg">
                       {smallId(o._id)}
                     </div>
@@ -91,7 +91,7 @@ const Orders = () => {
                   </div>
 
                   {/* Middle Section */}
-                  <div className="flex items-center gap-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 mt-2 sm:mt-0">
                     <div className="flex items-center gap-2">
                       <span className="text-muted text-sm">
                         Payment (
@@ -117,7 +117,7 @@ const Orders = () => {
                   </div>
 
                   {/* Right Section */}
-                  <div className="font-bold text-off-white text-lg">
+                  <div className="font-bold text-off-white text-lg mt-2 sm:mt-0">
                     ₹{o.totalPrice.toFixed(2)}
                   </div>
                 </div>
@@ -127,7 +127,7 @@ const Orders = () => {
                   {o.items.map((it) => (
                     <div
                       key={it.food._id || it.food}
-                      className="flex items-center justify-between py-2"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-2 gap-2 sm:gap-0"
                     >
                       <div className="flex items-center gap-3">
                         <img
@@ -144,7 +144,7 @@ const Orders = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mt-2 sm:mt-0">
                         <div className="font-semibold text-off-white">
                           ₹{((it.food.price || 0) * it.quantity).toFixed(2)}
                         </div>
