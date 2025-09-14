@@ -211,3 +211,22 @@ export const updateOrderStatus = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Admin: Update Order Payment Status
+export const updatePaymentStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { paymentStatus } = req.body;
+
+    const order = await Order.findById(id);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    order.paymentStatus = paymentStatus;
+    await order.save();
+
+    return res.status(200).json({ message: "Order payment status updated", order });
+  } catch (error) {
+    console.error("Error in updatePaymentStatus:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -164,6 +164,23 @@ const useAdminStore = create((set, get) => ({
     }
   },
 
+  updatePaymentStatus: async (orderId, status) => {
+    set({ loading: true, error: null })
+    try {
+      await axios.put(`/order/${orderId}/payment-status`, { paymentStatus: status })
+      set(state => ({
+        orders: state.orders.map(order => 
+          order._id === orderId ? { ...order, paymentStatus: status } : order
+        ),
+        loading: false
+      }))
+    } catch (error) {
+      set({ error: error.message, loading: false })
+      console.error('Error updating payment status:', error)
+      throw error
+    }
+  },
+
   fetchUsers: async () => {
     set({ loading: true, error: null })
     try {

@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast'
 import Loader from '../../components/ui/Loader'
 
 const OrdersList = () => {
-  const { orders, loading, fetchOrders, updateOrderStatus } = useAdminStore()
+  const { orders, loading, fetchOrders, updateOrderStatus, updatePaymentStatus } = useAdminStore()
 
   const orderStatuses = [
     'Pending',
@@ -25,6 +25,15 @@ const OrdersList = () => {
       toast.success('Order status updated successfully')
     } catch (error) {
       toast.error('Failed to update order status')
+    }
+  }
+
+  const handlePaymentStatusUpdate = async (orderId, newStatus) => {
+    try {
+      await updatePaymentStatus(orderId, newStatus)
+      toast.success('Payment status updated successfully')
+    } catch (error) {
+      toast.error('Failed to update payment status')
     }
   }
 
@@ -91,25 +100,41 @@ const OrdersList = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.orderStatus)}`}>
-                    {order.orderStatus}
-                  </span>
-                  
-                  <div className="relative">
-                    <select
-                      value={order.orderStatus}
-                      onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
-                      className="appearance-none bg-card border border-surface rounded px-5 py-1 text-xs "
-                    >
-                      {orderStatuses.map(status => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-1 top-1/2 transform -translate-y-1/2 w-3 h-3 text-off-white pointer-events-none" />
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.orderStatus)}`}>
+                      {order.orderStatus}
+                    </span>
+
+                    {order.paymentType === 'COD' && order.paymentStatus === 'pending' && (
+                      <div className="relative">
+                        <p className="text-xs text-muted mb-1">Payment Status</p>
+                        <select
+                          value={order.paymentStatus}
+                          onChange={(e) => handlePaymentStatusUpdate(order._id, e.target.value)}
+                          className="appearance-none bg-card border border-surface rounded px-5 py-1 text-xs "
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="paid">Paid</option>
+                        </select>
+                        <ChevronDown className="absolute right-1 top-1/2 transform -translate-y-1/2 w-3 h-3 text-off-white pointer-events-none" />
+                      </div>
+                    )}
+                    
+                    <div className="relative">
+                      <p className="text-xs text-muted mb-1">Order Status</p>
+                      <select
+                        value={order.orderStatus}
+                        onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                        className="appearance-none bg-card border border-surface rounded px-5 py-1 text-xs "
+                      >
+                        {orderStatuses.map(status => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-1 top-1/2 transform -translate-y-1/2 w-3 h-3 text-off-white pointer-events-none" />
+                    </div>
                   </div>
-                </div>
               </div>
             </div>
 
